@@ -1,9 +1,11 @@
 # Fases
 
 ## F0 — Setup
-- [ ] Revisar/actualizar versiones de dependencias y `pnpm install`
-- [ ] `supabase start` (si falta config, `supabase init` conservando migraciones)
-- [ ] Aplicar migraciones (`supabase db reset`) y generar tipos
+- [x] Revisar versiones de dependencias y `pnpm install` (se mantienen las mayores actuales)
+- [x] Supabase CLI en el proyecto (`pnpm supabase`) — se usa Supabase en la nube, sin Docker
+- [ ] Crear proyecto en supabase.com, `pnpm supabase login` y `pnpm supabase link`
+- [ ] Aplicar migraciones (`pnpm db:push`) y generar tipos (`pnpm db:types:remote`)
+- [ ] `.env.local` con URL + anon key reales
 - [x] ESLint (flat config) + Prettier + Vitest funcionando
 - [x] `pnpm dev` levanta la app con el router y las páginas placeholder
 

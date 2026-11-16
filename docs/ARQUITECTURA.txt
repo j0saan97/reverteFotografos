@@ -73,7 +73,9 @@ galeria/
 │   │   ├── sign-download/        # URL firmada de original (si permitido)
 │   │   ├── process-photo/        # encola/lanza generacion de derivados
 │   │   ├── invite-client/        # crea invitacion + email
-│   │   └── submit-selection/     # cierra seleccion + notifica fotografo
+│   │   ├── submit-selection/     # cierra seleccion + notifica fotografo
+│   │   ├── claim-photographer/   # codigo de invitacion -> role=photographer
+│   │   └── contact/              # formulario de contacto de la web publica
 │   ├── seed.sql
 │   └── config.toml
 ├── .github/workflows/
@@ -93,6 +95,12 @@ apps/web/src/
 │       └── RequireRole.tsx       # 'photographer' | 'client'
 │
 ├── features/                     # VERTICAL SLICES
+│   ├── public-site/              # web publica en "/": carrusel, portfolio,
+│   │                             # sobre mi, testimonios, contacto
+│   │   ├── content.ts            # textos, datos de contacto y fotos editables
+│   │   ├── components/           # HeroCarousel, PortfolioSection, ContactSection...
+│   │   └── services/contactService.ts
+│   │
 │   ├── auth/
 │   │   ├── pages/                # Login, Register, ResetPassword, AcceptInvite
 │   │   ├── hooks/                # useSession, useLogin, useRegister
@@ -183,6 +191,14 @@ Todo lo que requiere SECRETOS o PERMISOS ELEVADOS va aqui, nunca en el front.
                     -> marca selection.submitted_at, bloquea cambios,
                        email al fotografo
 
+  claim-photographer IN: code
+                    CHECK: usuario autenticado + code == PHOTOGRAPHER_INVITE_CODE
+                    -> profiles.role = 'photographer' (service role)
+
+  contact           IN: name, email, phone?, sessionType, eventDate?, message
+                    CHECK: contactSchema + honeypot anti-bots
+                    -> inserta contact_requests + email al estudio (Resend)
+
 
 5. CAPA DE DATOS (Supabase Postgres)
 --------------------------------------------------------------------------------
@@ -257,6 +273,10 @@ gallery_messages                      # dudas / conversacion cliente <-> fotogra
 downloads (auditoria)
   id, photo_id, client_id, created_at, ip
 
+contact_requests                      # formulario de la web publica
+  id, name, email, phone, session_type, event_date, message,
+  handled bool, created_at
+
 RLS (resumen):
   - profiles:        cada uno lee/edita el suyo
   - galleries:       fotografo -> CRUD de las suyas
@@ -269,6 +289,8 @@ RLS (resumen):
   - downloads:       solo insert via function (service role)
   - gallery_messages:cliente y fotografo de esa galeria leen/escriben;
                      nadie edita mensajes ajenos
+  - contact_requests:solo insert via function (service role);
+                     fotografos leen y marcan `handled`
 
 
 6. CAPA DE ALMACENAMIENTO (R2)
@@ -374,6 +396,7 @@ Componentes nuevos (features/selections):
 9. RUTAS
 --------------------------------------------------------------------------------
 Publicas
+  /                        (web publica: carrusel, portfolio, contacto)
   /login  /register  /reset-password  /invite/:token  /g/:slug (PIN)
 Fotografo  (RequireRole photographer)
   /dashboard
@@ -391,52 +414,138 @@ Cliente  (RequireRole client o acceso por PIN)
 
 10. ROADMAP POR FASES
 --------------------------------------------------------------------------------
-F0  Setup: monorepo, Supabase local, migraciones base, tipos generados
-F1  Auth + roles + layouts + guards
-F2  Galerias CRUD (fotografo)
-F3  Subida a R2 + procesado (thumb/preview/watermark)
-F4  Vista cliente protegida (seccion 7) + acceso por invitacion/PIN
-F5  Checks + comentarios por foto + envio de seleccion con mensaje
-    + mensajes generales + vista del fotografo
-F6  Descargas firmadas + ZIP + auditoria
-F7  Branding del fotografo, emails, caducidades
-F8  Extras: comentarios por foto, tienda de impresiones, estadisticas
+F0   Setup: monorepo, Supabase, migraciones base, tipos generados
+F1   Auth + roles + layouts + guards
+F1b  Web publica: carrusel, portfolio, sobre mi, testimonios, contacto
+F2   Galerias CRUD (fotografo)
+F3   Subida a R2 + procesado (thumb/preview/watermark)
+F4   Vista cliente protegida (seccion 7) + acceso por invitacion/PIN
+F5   Checks + comentarios por foto + envio de seleccion con mensaje
+     + mensajes generales + vista del fotografo
+F6   Descargas firmadas + ZIP + auditoria
+F7   Branding del fotografo, emails, caducidades
+F8   Extras: tienda de impresiones, estadisticas
+
+Metodologia:
+  - Una fase cada vez (docs/FASES.md es el checklist). No se adelanta
+    trabajo de fases futuras.
+  - Ramas: se trabaja en `dev`; `main` se actualiza desde `dev`.
+    Repo: github.com/j0saan97/reverteFotografos
+  - Antes de cerrar una fase: pnpm typecheck && pnpm lint && pnpm test
+    (+ pnpm format:check).
+  - Migraciones aplicadas no se editan: se crea una nueva.
 
 
-10b. ESTADO DE AVANCE (actualizado 2026-11-04)
+10b. ESTADO DE AVANCE (actualizado 2026-11-17)
 --------------------------------------------------------------------------------
-F0 - Setup (en curso)
-  [OK]   Node v26.13.0, Git 2.56, pnpm (el proyecto usa pnpm@9.12.0 por
-         packageManager)
-  [OK]   pnpm install -> 350 paquetes, sin errores
-  [OK]   typecheck / lint (ESLint flat config) pasan
-  [OK]   Vitest funciona (aun no hay ningun test)
-  [OK]   pnpm dev -> Vite arranca, /login responde 200
-  [WARN] Prettier funciona pero 14 archivos no cumplen formato
-  [TODO] Supabase CLI + Docker + migraciones + tipos (falta WSL2, requiere
-         reiniciar el equipo)
+Leyenda:  [OK] hecho y comprobado
+          [~]  hecho en codigo, falta probarlo contra Supabase
+          [ ]  pendiente
 
-  Versiones: se mantienen las mayores del esqueleto (React 18, Vite 5,
-  Vitest 2, Zod 3...) con sus ultimas menores. Subir mayores = migracion
-  aparte.
+Base de datos: Supabase EN LA NUBE (decidido 2026-11-17). Docker/WSL no
+son necesarios; la CLI va como devDependency (`pnpm supabase ...`).
+Scripts: db:link, db:push, db:types:remote, fn:deploy.
 
-Pendiente para cerrar F0:
-  1. Formato: crear .prettierignore (excluir pnpm-lock.yaml) y ejecutar
-     prettier --write sobre los 13 archivos restantes (solo espacios,
-     comillas y saltos de linea). Confirmar con el usuario si se hace por
-     comando o revisando archivo a archivo.
-  2. Git: git init + commit inicial antes de tocar nada (diffs y vuelta
-     atras).
-  3. Vitest: test pequeno de los esquemas Zod de packages/shared.
-  4. WSL + Docker (lo hace el usuario, requiere reinicio):
-       - PowerShell como administrador: wsl --install -> reiniciar
-       - winget install -e --id Docker.DockerDesktop -> abrir Docker
-         Desktop una vez y aceptar terminos
-       - Despues: instalar Supabase CLI en el proyecto, supabase start,
-         supabase db reset, pnpm db:types -> F0 cerrada -> empezar F1.
+F0 - Setup
+  [OK] Node v26, pnpm 9.12, pnpm install sin errores
+  [OK] Versiones: se mantienen las mayores del esqueleto (React 18, Vite 5,
+       Vitest 2, Zod 3) con sus ultimas menores. Subir mayores = tarea aparte
+  [OK] ESLint (flat config) + Prettier (scripts format / format:check)
+  [OK] Vitest con tests de los esquemas Zod (6 tests)
+  [OK] pnpm dev levanta la app
+  [OK] Git + GitHub, ramas main y dev
+  [OK] Supabase CLI instalada en el proyecto (v3.2.0)
+  [ ]  Crear proyecto en supabase.com (lo hace el usuario)
+  [ ]  pnpm supabase login + pnpm supabase link --project-ref <ref>
+       (lo hace el usuario: pide su cuenta y la password de la BD)
+  [ ]  pnpm db:push -> aplicar las 4 migraciones
+  [ ]  pnpm db:types:remote -> generar apps/web/src/types/database.ts
+  [ ]  apps/web/.env.local con URL + anon key reales y quitar
+       VITE_DEV_PREVIEW_ROLE
 
-Decisiones tomadas para F1:
+F1 - Auth y roles
+  [~]  Login, registro y recuperar contrasena (UI + logica)
+  [~]  Trigger handle_new_user crea el perfil con rol 'client'
+  [~]  Edge Function claim-photographer (codigo de invitacion)
+  [OK] AuthProvider + useSession, RequireAuth / RequireRole
+  [OK] Layouts fotografo (sidebar) y cliente (oscuro)
+  [OK] Vista previa sin Supabase solo en dev (VITE_DEV_PREVIEW_ROLE)
+  [ ]  Configurar en el panel de Supabase: Site URL, Redirect URLs y
+       plantillas de email (confirmacion y reset) en espanol
+  [ ]  Secret PHOTOGRAPHER_INVITE_CODE y desplegar claim-photographer
+  [ ]  Probar: registro cliente, registro fotografo con codigo, login,
+       reset de contrasena, redireccion por rol
+  [ ]  AcceptInvitePage (/invite/:token) -> se completa en F4
+
+F1b - Web publica
+  [OK] Home en "/": carrusel, portfolio con filtros + lightbox, sobre mi,
+       testimonios, contacto, footer y enlace "Acceso clientes"
+  [OK] Contacto directo: WhatsApp, telefono, email, Instagram
+  [~]  Formulario -> Edge Function contact + tabla contact_requests (RLS)
+  [ ]  Desplegar contact y configurar secrets RESEND_API_KEY,
+       CONTACT_NOTIFY_EMAIL, CONTACT_FROM_EMAIL
+  [ ]  Sustituir fotos de muestra (Unsplash), textos, opiniones y datos de
+       contacto provisionales por los reales (features/public-site/content.ts)
+  [ ]  SEO basico: title/description por pagina, Open Graph, favicon
+  [ ]  (Mas adelante) gestionar portfolio y ver solicitudes de contacto
+       desde el panel del fotografo
+
+F2 - Galerias (fotografo)
+  [ ]  Listado, crear, editar
+  [ ]  Ajustes: descarga, seleccion, max. seleccion, PIN, caducidad,
+       marca de agua
+  [ ]  Publicar / archivar, slug unico
+  [ ]  Dashboard con resumen (galerias, selecciones pendientes, mensajes)
+
+F3 - Subida y procesado
+  [ ]  Cuenta Cloudflare + buckets R2 (originals, previews) + claves
+  [ ]  sign-upload (URL prefirmada R2)
+  [ ]  Dropzone + cola con concurrencia y reintentos
+  [ ]  process-photo -> thumb + preview con marca de agua
+       (decidir: Cloudflare Images o image-worker con sharp)
+  [ ]  Realtime: la foto aparece al pasar a 'ready'
+  [ ]  Orden manual y portada
+
+F4 - Vista cliente protegida
+  [ ]  invite-client (email de invitacion) + AcceptInvitePage
+  [ ]  Acceso por /g/:slug + PIN (verify-pin con hash + rate limit)
+  [ ]  sign-view + Worker de Cloudflare que valida el token
+  [ ]  ProtectedImage, ProtectedLightbox y hooks de shared/protection
+
+F5 - Seleccion, comentarios y mensajes
+  [ ]  Check en cada PhotoCard y en el lightbox (tecla F)
+  [ ]  Comentario por foto
+  [ ]  SelectionBar con contador / maximo y filtros
+  [ ]  Revisar y enviar con mensaje general (submit-selection)
+  [ ]  Hilo de mensajes (gallery_messages) con Realtime y no leidos
+  [ ]  Vista del fotografo: selecciones, comentarios, exportar nombres,
+       reabrir (reopen-selection)
+
+F6 - Descargas
+  [ ]  sign-download (URLs firmadas / ZIP) + auditoria en downloads
+
+F7 - Branding y emails
+  [ ]  Logo/nombre del fotografo en la vista cliente
+  [ ]  Emails con Resend (invitacion, seleccion enviada, nuevo mensaje)
+  [ ]  Caducidad de galerias
+
+F8 - Extras
+  [ ]  Estadisticas, tienda de impresiones, etc.
+
+Transversal / despliegue
+  [ ]  Dominio propio y hosting del front (Vercel / Netlify / CF Pages)
+  [ ]  CORS de las Edge Functions restringido al dominio (APP_URL)
+  [ ]  CI en GitHub Actions: revisar que pasa con el codigo actual
+  [ ]  Sentry (front + functions)
+  [ ]  Tests e2e con Playwright de los flujos principales
+
+Decisiones tomadas:
   - Alta de fotografo por CODIGO DE INVITACION: el registro de fotografo
-    pide un codigo secreto; una Edge Function lo valida y asigna
-    role='photographer' con service role. Un cliente nunca puede
+    pide un codigo secreto; la Edge Function claim-photographer lo valida
+    y asigna role='photographer' con service role. Un cliente nunca puede
     autoasignarse el rol (la columna role no tiene GRANT de update).
+  - Supabase en la nube en lugar de local con Docker.
+  - packages/shared usa imports con extension .ts para que las Edge
+    Functions (Deno) lo importen via supabase/functions/deno.json.
+  - Web publica con contenido en un fichero (content.ts) mientras no haya
+    gestion desde el panel.
