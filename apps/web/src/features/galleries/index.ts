@@ -1,0 +1,5 @@
+export { GalleriesListPage } from './pages/GalleriesListPage'
+export { NewGalleryPage } from './pages/NewGalleryPage'
+export { GalleryEditorPage } from './pages/GalleryEditorPage'
+export { GallerySettingsPage } from './pages/GallerySettingsPage'
+export { galleryService } from './services/galleryService'

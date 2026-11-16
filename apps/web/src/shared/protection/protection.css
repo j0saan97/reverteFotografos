@@ -1,0 +1,29 @@
+.protected {
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+.protected img {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+.protected-overlay {
+  position: absolute;
+  inset: 0;
+}
+
+/* Se activa con useBlurOnHidden / usePrintScreenGuard */
+.gallery-blurred .protected img {
+  filter: blur(24px);
+  transition: filter 0.1s;
+}
+
+@media print {
+  .protected,
+  .gallery-root {
+    display: none !important;
+  }
+}

@@ -1,0 +1,3 @@
+-- Datos de prueba (F0/F1). Crear usuarios desde Supabase Studio (http://127.0.0.1:54323)
+-- y después promocionar al fotógrafo:
+-- update public.profiles set role = 'photographer' where id = '<uuid>';
