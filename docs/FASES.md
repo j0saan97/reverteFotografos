@@ -16,6 +16,15 @@
       validado por la Edge Function `claim-photographer` (falta probarla con `supabase functions serve`)
 - Vista previa sin Supabase (solo dev): `VITE_DEV_PREVIEW_ROLE=photographer|client` en `apps/web/.env.local`
 
+## F1b — Web pública (portfolio)
+- [x] Home pública en `/`: carrusel, portfolio por categorías con lightbox, sobre mí,
+      testimonios, contacto y footer (contenido editable en `features/public-site/content.ts`)
+- [x] Contacto directo: WhatsApp, teléfono, email, Instagram
+- [ ] Formulario de contacto → Edge Function `contact` + tabla `contact_requests` (RLS) + aviso
+      por Resend — hecho, falta probar contra Supabase local
+- [ ] Sustituir fotos de muestra (Unsplash) y datos de contacto provisionales por los reales
+- [ ] (Más adelante) gestionar portfolio y ver solicitudes de contacto desde el panel
+
 ## F2 — Galerías (fotógrafo)
 - [ ] Listado, crear, editar, ajustes (descarga, selección, máx. selección, PIN, caducidad, marca de agua)
 - [ ] Publicar / archivar, slug único

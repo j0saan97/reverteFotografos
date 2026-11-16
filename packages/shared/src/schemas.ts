@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { ALLOWED_MIME, MAX_UPLOAD_BYTES } from './constants.ts'
+import { ALLOWED_MIME, CONTACT_SESSION_TYPES, MAX_UPLOAD_BYTES } from './constants.ts'
 
 const emailField = z.string().trim().email('Introduce un email válido')
 const passwordField = z.string().min(8, 'Mínimo 8 caracteres')
@@ -79,4 +79,21 @@ export const messageSchema = z.object({
   galleryId: z.string().uuid(),
   photoId: z.string().uuid().nullable(),
   body: z.string().min(1).max(2000),
+})
+
+export const contactSchema = z.object({
+  name: z.string().trim().min(2, 'Mínimo 2 caracteres').max(120, 'Máximo 120 caracteres'),
+  email: z.string().trim().email('Introduce un email válido'),
+  phone: z.string().trim().max(30, 'Máximo 30 caracteres').optional(),
+  sessionType: z.enum(CONTACT_SESSION_TYPES, {
+    errorMap: () => ({ message: 'Elige un tipo de sesión' }),
+  }),
+  eventDate: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, 'Fecha no válida')
+    .optional()
+    .or(z.literal('')),
+  message: z.string().trim().min(10, 'Cuéntanos un poco más (mín. 10 caracteres)').max(3000),
+  // Honeypot: real users never fill it (hidden field)
+  website: z.string().max(0).optional(),
 })

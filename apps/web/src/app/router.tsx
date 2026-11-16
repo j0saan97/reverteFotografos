@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom'
+import { createBrowserRouter } from 'react-router-dom'
 import { RequireAuth } from './guards/RequireAuth'
 import { RequireRole } from './guards/RequireRole'
 import { ClientShell, PhotographerShell } from './shells'
@@ -14,9 +14,10 @@ import { ClientsListPage } from '@/features/clients'
 import { SelectionReviewPage, ClientSelectionPage } from '@/features/selections'
 import { ClientHomePage, GalleryAccessPage, GalleryViewPage } from '@/features/client-gallery'
 import { DashboardPage, BrandingSettingsPage } from '@/features/dashboard'
+import { HomePage } from '@/features/public-site'
 
 export const router = createBrowserRouter([
-  { path: '/', element: <Navigate to="/login" replace /> },
+  { path: '/', element: <HomePage /> },
   { path: '/login', element: <LoginPage /> },
   { path: '/register', element: <RegisterPage /> },
   { path: '/reset-password', element: <ResetPasswordPage /> },
