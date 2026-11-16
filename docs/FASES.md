@@ -4,8 +4,8 @@
 - [ ] Revisar/actualizar versiones de dependencias y `pnpm install`
 - [ ] `supabase start` (si falta config, `supabase init` conservando migraciones)
 - [ ] Aplicar migraciones (`supabase db reset`) y generar tipos
-- [ ] ESLint (flat config) + Prettier + Vitest funcionando
-- [ ] `pnpm dev` levanta la app con el router y las páginas placeholder
+- [x] ESLint (flat config) + Prettier + Vitest funcionando
+- [x] `pnpm dev` levanta la app con el router y las páginas placeholder
 
 ## F1 — Auth y roles
 - [ ] Registro/login/reset con Supabase Auth

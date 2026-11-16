@@ -11,7 +11,10 @@ export const gallerySettingsSchema = z.object({
   allowDownload: z.boolean(),
   allowSelection: z.boolean(),
   maxSelection: z.number().int().positive().nullable(),
-  pin: z.string().regex(/^\d{4,8}$/).nullable(),
+  pin: z
+    .string()
+    .regex(/^\d{4,8}$/)
+    .nullable(),
   watermarkText: z.string().max(60).nullable(),
   expiresAt: z.string().datetime().nullable(),
 })
