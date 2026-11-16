@@ -8,11 +8,13 @@
 - [x] `pnpm dev` levanta la app con el router y las páginas placeholder
 
 ## F1 — Auth y roles
-- [ ] Registro/login/reset con Supabase Auth
-- [ ] Perfil con rol (trigger `handle_new_user`)
-- [ ] `RequireAuth` / `RequireRole` funcionales + `AuthProvider`
-- [ ] Layouts fotógrafo y cliente
-- [ ] Decidir cómo se da de alta un fotógrafo (invitación/admin); un cliente no puede autoasignarse el rol
+- [ ] Registro/login/reset con Supabase Auth — UI y lógica hechas; falta probar contra Supabase local
+- [ ] Perfil con rol (trigger `handle_new_user`) — falta probar contra Supabase local
+- [x] `RequireAuth` / `RequireRole` funcionales + `AuthProvider`
+- [x] Layouts fotógrafo y cliente
+- [x] Decidir cómo se da de alta un fotógrafo: código de invitación (`PHOTOGRAPHER_INVITE_CODE`)
+      validado por la Edge Function `claim-photographer` (falta probarla con `supabase functions serve`)
+- Vista previa sin Supabase (solo dev): `VITE_DEV_PREVIEW_ROLE=photographer|client` en `apps/web/.env.local`
 
 ## F2 — Galerías (fotógrafo)
 - [ ] Listado, crear, editar, ajustes (descarga, selección, máx. selección, PIN, caducidad, marca de agua)

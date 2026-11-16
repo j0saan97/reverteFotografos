@@ -1,8 +1,7 @@
-import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom'
+import { createBrowserRouter, Navigate } from 'react-router-dom'
 import { RequireAuth } from './guards/RequireAuth'
 import { RequireRole } from './guards/RequireRole'
-import { PhotographerLayout } from '@/shared/layouts/PhotographerLayout'
-import { ClientLayout } from '@/shared/layouts/ClientLayout'
+import { ClientShell, PhotographerShell } from './shells'
 
 import { LoginPage, RegisterPage, ResetPasswordPage, AcceptInvitePage } from '@/features/auth'
 import {
@@ -28,9 +27,7 @@ export const router = createBrowserRouter([
     element: (
       <RequireAuth>
         <RequireRole role="photographer">
-          <PhotographerLayout>
-            <Outlet />
-          </PhotographerLayout>
+          <PhotographerShell />
         </RequireRole>
       </RequireAuth>
     ),
@@ -49,9 +46,7 @@ export const router = createBrowserRouter([
     element: (
       <RequireAuth>
         <RequireRole role="client">
-          <ClientLayout>
-            <Outlet />
-          </ClientLayout>
+          <ClientShell />
         </RequireRole>
       </RequireAuth>
     ),

@@ -1,9 +1,38 @@
 import { z } from 'zod'
-import { ALLOWED_MIME, MAX_UPLOAD_BYTES } from './constants'
+import { ALLOWED_MIME, MAX_UPLOAD_BYTES } from './constants.ts'
+
+const emailField = z.string().trim().email('Introduce un email válido')
+const passwordField = z.string().min(8, 'Mínimo 8 caracteres')
 
 export const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
+  email: emailField,
+  password: z.string().min(1, 'Introduce tu contraseña'),
+})
+
+export const registerSchema = z
+  .object({
+    displayName: z.string().trim().min(2, 'Mínimo 2 caracteres').max(80, 'Máximo 80 caracteres'),
+    email: emailField,
+    password: passwordField,
+    confirmPassword: z.string(),
+    photographerCode: z.string().trim().max(64).optional(),
+  })
+  .refine((d) => d.password === d.confirmPassword, {
+    path: ['confirmPassword'],
+    message: 'Las contraseñas no coinciden',
+  })
+
+export const resetRequestSchema = z.object({ email: emailField })
+
+export const newPasswordSchema = z
+  .object({ password: passwordField, confirmPassword: z.string() })
+  .refine((d) => d.password === d.confirmPassword, {
+    path: ['confirmPassword'],
+    message: 'Las contraseñas no coinciden',
+  })
+
+export const claimPhotographerSchema = z.object({
+  code: z.string().trim().min(1, 'Introduce el código').max(64),
 })
 
 export const gallerySettingsSchema = z.object({
