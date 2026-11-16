@@ -6,7 +6,10 @@ Galería privada de fotos fotógrafo → cliente (referencia: Oh My Photo / Pixp
 - Cliente: ve fotos protegidas, marca con check, comenta por foto, envía selección con
   mensaje, hilo de dudas con el fotógrafo, descarga solo si está permitido.
 
-Documento maestro: `docs/ARQUITECTURA.txt`. Plan de trabajo: `docs/FASES.md`.
+Documentación en `docs/`:
+- `docs/STACK-Y-METODOLOGIA.md`: stack, forma de trabajar, seguridad y decisiones.
+- `docs/ESTRUCTURA-PROYECTO.md`: monorepo, carpetas, rutas, Edge Functions, datos/RLS y flujos.
+- `docs/FASES-IMPLEMENTACION.md`: roadmap y checklist de estado (único checklist).
 
 ## Stack
 - `apps/web`: React 18 + TS + Vite, React Router, TanStack Query, Zustand, Tailwind v4,
@@ -17,7 +20,7 @@ Documento maestro: `docs/ARQUITECTURA.txt`. Plan de trabajo: `docs/FASES.md`.
 - Fotos en Cloudflare R2: `originals` privado, `previews`/`thumbs` servidos con token.
 
 ## Reglas
-1. **Se trabaja por fases** (`docs/FASES.md`). Una fase cada vez; al terminar, marcar el
+1. **Se trabaja por fases** (`docs/FASES-IMPLEMENTACION.md`). Una fase cada vez; al terminar, marcar el
    checklist y no adelantar trabajo de fases futuras.
 2. **RLS primero**: toda tabla nueva lleva RLS activado y políticas en una migración.
 3. **Nunca** usar la service role key en el frontend. Lo que necesite secretos → Edge Function.

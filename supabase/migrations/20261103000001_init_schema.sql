@@ -18,7 +18,7 @@ create table public.profiles (
 );
 
 -- Crea el perfil al registrarse. El rol siempre es 'client';
--- los fotógrafos se promocionan aparte (ver F1 en docs/FASES.md).
+-- los fotógrafos se promocionan aparte (ver F1 en docs/FASES-IMPLEMENTACION.md).
 create or replace function public.handle_new_user()
 returns trigger language plpgsql security definer set search_path = public as $$
 begin
