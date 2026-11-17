@@ -9,6 +9,10 @@
 **Leyenda:** `[x]` hecho y comprobado · `[~]` hecho en código, falta probarlo contra Supabase ·
 `[ ]` pendiente
 
+**Índices:** cada tarea se identifica como `<fase>.<n>` (p. ej. `F1.3`, `R2.4`; `T.n` para
+transversal). Las tareas nuevas se añaden al final de su fase con el siguiente número, sin
+renumerar las existentes, para que las referencias (commits, conversaciones) sigan valiendo.
+
 ## Roadmap
 
 | Fase | Objetivo | Estado |
@@ -28,62 +32,62 @@
 
 ## F0 — Setup
 
-- [x] Node 26, pnpm 9.12, `pnpm install` sin errores
-- [x] Versiones revisadas: se mantienen las mayores actuales
-- [x] ESLint (flat config) + Prettier (`format`, `format:check`)
-- [x] Vitest con tests de los esquemas Zod
-- [x] `pnpm dev` levanta la app
-- [x] Git + GitHub, ramas `main` y `dev`
-- [x] Supabase CLI en el proyecto (`pnpm supabase`), sin Docker
-- [x] Proyecto `reverteFotografos` en supabase.com (Europa, ref `gbymaufmavdvgfqmoeof`)
-- [x] `supabase login` y `supabase link --project-ref gbymaufmavdvgfqmoeof`
-- [x] `pnpm db:push`: 4 migraciones aplicadas (CLI v3: los scripts usan `--remote`)
-- [x] `pnpm db:types:remote`: `apps/web/src/types/database.ts` generado
-- [x] `apps/web/.env.local` con URL + publishable key reales
+- [x] **F0.1** Node 26, pnpm 9.12, `pnpm install` sin errores
+- [x] **F0.2** Versiones revisadas: se mantienen las mayores actuales
+- [x] **F0.3** ESLint (flat config) + Prettier (`format`, `format:check`)
+- [x] **F0.4** Vitest con tests de los esquemas Zod
+- [x] **F0.5** `pnpm dev` levanta la app
+- [x] **F0.6** Git + GitHub, ramas `main` y `dev`
+- [x] **F0.7** Supabase CLI en el proyecto (`pnpm supabase`), sin Docker
+- [x] **F0.8** Proyecto `reverteFotografos` en supabase.com (Europa, ref `gbymaufmavdvgfqmoeof`)
+- [x] **F0.9** `supabase login` y `supabase link --project-ref gbymaufmavdvgfqmoeof`
+- [x] **F0.10** `pnpm db:push`: 4 migraciones aplicadas (CLI v3: los scripts usan `--remote`)
+- [x] **F0.11** `pnpm db:types:remote`: `apps/web/src/types/database.ts` generado
+- [x] **F0.12** `apps/web/.env.local` con URL + publishable key reales
 
 ## F1 — Auth y roles
 
-- [x] Login, registro y recuperar contraseña (UI + lógica)
-- [x] Trigger `handle_new_user` crea el perfil con rol `client`
-- [x] Edge Function `claim-photographer` (código de invitación)
-- [x] `AuthProvider` + `useSession`, `RequireAuth` / `RequireRole`
-- [x] Layouts fotógrafo (barra lateral) y cliente (oscuro)
-- [x] Vista previa sin Supabase solo en desarrollo (`VITE_DEV_PREVIEW_ROLE`)
-- [x] Decisión: alta de fotógrafo por código de invitación
-- [x] Panel de Supabase: Site URL y Redirect URLs (`http://localhost:5173/**`)
-- [x] Secret `PHOTOGRAPHER_INVITE_CODE` y desplegar `claim-photographer`
+- [x] **F1.1** Login, registro y recuperar contraseña (UI + lógica)
+- [x] **F1.2** Trigger `handle_new_user` crea el perfil con rol `client`
+- [x] **F1.3** Edge Function `claim-photographer` (código de invitación)
+- [x] **F1.4** `AuthProvider` + `useSession`, `RequireAuth` / `RequireRole`
+- [x] **F1.5** Layouts fotógrafo (barra lateral) y cliente (oscuro)
+- [x] **F1.6** Vista previa sin Supabase solo en desarrollo (`VITE_DEV_PREVIEW_ROLE`)
+- [x] **F1.7** Decisión: alta de fotógrafo por código de invitación
+- [x] **F1.8** Panel de Supabase: Site URL y Redirect URLs (`http://localhost:5173/**`)
+- [x] **F1.9** Secret `PHOTOGRAPHER_INVITE_CODE` y desplegar `claim-photographer`
       (`pnpm fn:deploy <nombre>`: necesita `--import-map` para resolver `@galeria/shared`)
-- [x] Probado: registro de cliente, registro de fotógrafo con código, login, reset y redirección por rol
-- [~] `AcceptInvitePage` (`/invite/:token`): sin sesión → login/registro y vuelve a la invitación
+- [x] **F1.10** Probado: registro de cliente, registro de fotógrafo con código, login, reset y redirección por rol
+- [x] **F1.11** `AcceptInvitePage` (`/invite/:token`): sin sesión → login/registro y vuelve a la invitación
       (se recuerda en `localStorage`); con sesión de cliente → `accept-invite`; invitación ligada al email
-- [~] Invitaciones: migración `gallery_invites` (token de un uso, solo se guarda su hash, caduca a
+- [x] **F1.12** Invitaciones: migración `gallery_invites` (token de un uso, solo se guarda su hash, caduca a
       los 14 días), Edge Functions `invite-client` y `accept-invite` desplegadas, sección
       "Clientes con acceso" en la galería (invitar, copiar enlace, nuevo enlace, quitar acceso)
 
 ## F1b — Web pública
 
-- [x] Home en `/`: carrusel, portfolio con filtros + lightbox, sobre mí, testimonios, contacto,
+- [x] **F1b.1** Home en `/`: carrusel, portfolio con filtros + lightbox, sobre mí, testimonios, contacto,
       footer y enlace "Acceso clientes"
-- [x] Contacto directo: WhatsApp, teléfono, email, Instagram
-- [~] Formulario → Edge Function `contact` + tabla `contact_requests` (RLS)
-- [x] Desplegar `contact` (pública: `verify_jwt = false` en `config.toml`, la publishable key no es un JWT)
-- [ ] Cuenta de Resend + dominio verificado y secrets `RESEND_API_KEY`, `CONTACT_NOTIFY_EMAIL`,
+- [x] **F1b.2** Contacto directo: WhatsApp, teléfono, email, Instagram
+- [~] **F1b.3** Formulario → Edge Function `contact` + tabla `contact_requests` (RLS)
+- [x] **F1b.4** Desplegar `contact` (pública: `verify_jwt = false` en `config.toml`, la publishable key no es un JWT)
+- [ ] **F1b.5** Cuenta de Resend + dominio verificado y secrets `RESEND_API_KEY`, `CONTACT_NOTIFY_EMAIL`,
       `CONTACT_FROM_EMAIL` *(usuario)* — también activa el email de las invitaciones
-- [ ] Probar el formulario de contacto de punta a punta (llega a `contact_requests` y por email)
-- [ ] Sustituir fotos de muestra, textos, opiniones y datos de contacto provisionales por los
+- [ ] **F1b.6** Probar el formulario de contacto de punta a punta (llega a `contact_requests` y por email)
+- [ ] **F1b.7** Sustituir fotos de muestra, textos, opiniones y datos de contacto provisionales por los
       reales (`features/public-site/content.ts`)
-- [x] SEO básico: title y description, Open Graph, favicon, `robots.txt` (zonas privadas fuera)
-- [ ] SEO con dominio real: `og:url`, canonical, `og:image` propia, sitemap
-- [ ] *(Más adelante)* gestionar el portfolio y ver las solicitudes de contacto desde el panel
+- [x] **F1b.8** SEO básico: title y description, Open Graph, favicon, `robots.txt` (zonas privadas fuera)
+- [ ] **F1b.9** SEO con dominio real: `og:url`, canonical, `og:image` propia, sitemap
+- [ ] **F1b.10** *(Más adelante)* gestionar el portfolio y ver las solicitudes de contacto desde el panel
 
 ## F2 — Galerías (fotógrafo)
 
-- [~] Listado con filtros por estado, crear y editar
-- [~] Ajustes: descarga, selección, máx. selección, caducidad, marca de agua
-- [~] PIN: se cifra en la BD con `set_gallery_pin` (bcrypt); la UI solo ve `has_pin`
-- [~] Publicar / pasar a borrador / archivar / eliminar; slug único con sufijo aleatorio
-- [~] Dashboard con resumen (publicadas, borradores, selecciones recibidas, mensajes sin leer)
-- [x] Migración `gallery_settings`: `has_pin`, GRANT por columna (no se escribe `pin_hash` ni `photographer_id`)
+- [~] **F2.1** Listado con filtros por estado, crear y editar
+- [~] **F2.2** Ajustes: descarga, selección, máx. selección, caducidad, marca de agua
+- [~] **F2.3** PIN: se cifra en la BD con `set_gallery_pin` (bcrypt); la UI solo ve `has_pin`
+- [~] **F2.4** Publicar / pasar a borrador / archivar / eliminar; slug único con sufijo aleatorio
+- [~] **F2.5** Dashboard con resumen (publicadas, borradores, selecciones recibidas, mensajes sin leer)
+- [x] **F2.6** Migración `gallery_settings`: `has_pin`, GRANT por columna (no se escribe `pin_hash` ni `photographer_id`)
 
 ## R1 — Reservas (calendario)
 
@@ -107,13 +111,13 @@ Modelo de datos (borrador):
   aunque lleguen a la vez.
 
 Tareas:
-- [ ] Migración: tablas + RLS + función que calcula huecos libres (`available_slots(product, from, to)`)
-- [ ] Panel: CRUD de productos, horario semanal y bloqueos
-- [ ] Componente `BookingCalendar`: producto → día (mes con días disponibles) → franja → nota → enviar
-- [ ] Mis reservas (cliente) y bandeja de reservas (fotógrafo): aceptar / rechazar / cancelar
-- [ ] Caducar solicitudes no atendidas (libera la franja)
-- [ ] Emails: solicitud recibida, aceptada, rechazada
-- [ ] Zona horaria fija del negocio (`Europe/Madrid`)
+- [ ] **R1.1** Migración: tablas + RLS + función que calcula huecos libres (`available_slots(product, from, to)`)
+- [ ] **R1.2** Panel: CRUD de productos, horario semanal y bloqueos
+- [ ] **R1.3** Componente `BookingCalendar`: producto → día (mes con días disponibles) → franja → nota → enviar
+- [ ] **R1.4** Mis reservas (cliente) y bandeja de reservas (fotógrafo): aceptar / rechazar / cancelar
+- [ ] **R1.5** Caducar solicitudes no atendidas (libera la franja)
+- [ ] **R1.6** Emails: solicitud recibida, aceptada, rechazada
+- [ ] **R1.7** Zona horaria fija del negocio (`Europe/Madrid`)
 
 ## R2 — Señal y bot de WhatsApp
 
@@ -141,63 +145,65 @@ Avisos:
   AWS Textract.
 
 Tareas:
-- [ ] Cuenta de WhatsApp Business Cloud API + número + webhook (Edge Function `whatsapp-webhook`)
-- [ ] Vincular el teléfono del perfil del cliente con su reserva (o por el código de reserva)
-- [ ] Extraer importe / fecha / concepto de la captura y cruzarlo con la reserva
-- [ ] Respuesta automática al cliente por WhatsApp ("Hemos recibido tu justificante, el fotógrafo
+- [ ] **R2.1** Cuenta de WhatsApp Business Cloud API + número + webhook (Edge Function `whatsapp-webhook`)
+- [ ] **R2.2** Vincular el teléfono del perfil del cliente con su reserva (o por el código de reserva)
+- [ ] **R2.3** Extraer importe / fecha / concepto de la captura y cruzarlo con la reserva
+- [ ] **R2.4** Respuesta automática al cliente por WhatsApp ("Hemos recibido tu justificante, el fotógrafo
       lo revisará") — nunca "reserva confirmada"
-- [ ] Aviso al fotógrafo (WhatsApp a su número + contador en el dashboard)
-- [ ] Dashboard: bandeja "Justificantes por revisar" con captura, datos extraídos y reserva
+- [ ] **R2.5** Aviso al fotógrafo (WhatsApp a su número + contador en el dashboard)
+- [ ] **R2.6** Dashboard: bandeja "Justificantes por revisar" con captura, datos extraídos y reserva
       asociada; botones **Confirmar reserva** / **Rechazar justificante**
-- [ ] Al confirmar → reserva `confirmed` + aviso al cliente (WhatsApp y email)
-- [ ] Guardar los justificantes en privado (R2 `originals` o bucket aparte) con RLS
+- [ ] **R2.7** Al confirmar → reserva `confirmed` + aviso al cliente (WhatsApp y email)
+- [ ] **R2.8** Guardar los justificantes en privado (R2 `originals` o bucket aparte) con RLS
 
 ## F3 — Subida y procesado
 
-- [ ] Cuenta de Cloudflare + buckets R2 (`originals`, `previews`) + claves
-- [ ] `sign-upload` (URL prefirmada R2)
-- [ ] Dropzone + cola con concurrencia y reintentos
-- [ ] `process-photo` → thumb + preview con marca de agua (decidir: Cloudflare Images o `image-worker` con sharp)
-- [ ] Realtime: la foto aparece al pasar a `ready`
-- [ ] Orden manual y portada
-- [ ] Al eliminar una galería, borrar también sus archivos en R2 (ahora solo se borran las filas)
+- [ ] **F3.1** Cuenta de Cloudflare + buckets R2 (`originals`, `previews`) + claves
+- [ ] **F3.2** `sign-upload` (URL prefirmada R2)
+- [ ] **F3.3** Dropzone + cola con concurrencia y reintentos
+- [ ] **F3.4** `process-photo` → thumb + preview con marca de agua (decidir: Cloudflare Images o `image-worker` con sharp)
+- [ ] **F3.5** Realtime: la foto aparece al pasar a `ready`
+- [ ] **F3.6** Orden manual y portada
+- [ ] **F3.7** Al eliminar una galería, borrar también sus archivos en R2 (ahora solo se borran las filas)
 
 ## F4 — Vista cliente protegida
 
-- [~] `invite-client` (email de invitación) + `AcceptInvitePage` — adelantado en F1 (ver arriba)
-- [ ] `ClientHomePage` (`/my`): listar las galerías a las que el cliente tiene acceso
-- [ ] Acceso por `/g/:slug` + PIN (`verify-pin` con hash + límite de intentos)
-- [ ] `sign-view` + Worker de Cloudflare que valida el token
-- [ ] `ProtectedImage`, `ProtectedLightbox` y hooks de `shared/protection`
+- [x] **F4.1** `invite-client` (email de invitación) + `AcceptInvitePage` — adelantado en F1 (ver F1.11 y F1.12)
+- [ ] **F4.2** `ClientHomePage` (`/my`): listar las galerías a las que el cliente tiene acceso
+- [ ] **F4.3** Acceso por `/g/:slug` + PIN (`verify-pin` con hash + límite de intentos)
+- [ ] **F4.4** `sign-view` + Worker de Cloudflare que valida el token
+- [ ] **F4.5** `ProtectedImage`, `ProtectedLightbox` y hooks de `shared/protection`
 
 ## F5 — Selección, comentarios y mensajes
 
-- [ ] Check en cada `PhotoCard` y en el lightbox (tecla F)
-- [ ] Comentario por foto
-- [ ] `SelectionBar` con contador / máximo y filtros
-- [ ] Revisar y enviar con mensaje general (`submit-selection`)
-- [ ] Hilo de mensajes (`gallery_messages`) con Realtime y no leídos
-- [ ] Vista del fotógrafo: selecciones, comentarios, exportar nombres, reabrir (`reopen-selection`)
+- [ ] **F5.1** Check en cada `PhotoCard` y en el lightbox (tecla F)
+- [ ] **F5.2** Comentario por foto
+- [ ] **F5.3** `SelectionBar` con contador / máximo y filtros
+- [ ] **F5.4** Revisar y enviar con mensaje general (`submit-selection`)
+- [ ] **F5.5** Hilo de mensajes (`gallery_messages`) con Realtime y no leídos
+- [ ] **F5.6** Vista del fotógrafo: selecciones, comentarios, exportar nombres, reabrir (`reopen-selection`)
 
 ## F6 — Descargas
 
-- [ ] `sign-download` (URLs firmadas / ZIP) + auditoría en `downloads`
+- [ ] **F6.1** `sign-download` (URLs firmadas / ZIP) + auditoría en `downloads`
 
 ## F7 — Branding y emails
 
-- [ ] Logo y nombre del fotógrafo en la vista cliente
-- [ ] Emails con Resend (invitación, selección enviada, nuevo mensaje)
-- [ ] Plantillas de email de Supabase Auth en español (confirmar cuenta, reset) + SMTP propio
-- [ ] Caducidad de galerías
+- [ ] **F7.1** Logo y nombre del fotógrafo en la vista cliente
+- [ ] **F7.2** Emails con Resend (invitación, selección enviada, nuevo mensaje)
+- [ ] **F7.3** Plantillas de email de Supabase Auth en español (confirmar cuenta, reset) + SMTP propio
+- [ ] **F7.4** Caducidad de galerías
 
 ## F8 — Extras
 
-- [ ] Estadísticas, tienda de impresiones, etc.
+- [ ] **F8.1** Estadísticas, tienda de impresiones, etc.
 
 ## Transversal / despliegue
 
-- [ ] Dominio propio y hosting del front (Vercel / Netlify / Cloudflare Pages)
-- [ ] CORS de las Edge Functions restringido al dominio (`APP_URL`)
-- [ ] CI en GitHub Actions: revisar que pasa con el código actual
-- [ ] Sentry (front + functions)
-- [ ] Tests e2e con Playwright de los flujos principales
+- [ ] **T.1** Dominio propio y hosting del front (Vercel / Netlify / Cloudflare Pages)
+- [ ] **T.2** CORS de las Edge Functions restringido al dominio (`APP_URL`)
+- [ ] **T.3** CI en GitHub Actions: revisar que pasa con el código actual
+- [ ] **T.4** Sentry (front + functions)
+- [ ] **T.5** Tests e2e con Playwright de los flujos principales
+- [ ] **T.6** Antes de abrir a clientes reales: reactivar *Confirm email* en Supabase Auth
+      (desactivado temporalmente para pruebas por el límite de ~2 emails/hora del SMTP por defecto)
