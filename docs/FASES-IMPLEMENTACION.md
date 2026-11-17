@@ -13,7 +13,7 @@
 
 | Fase | Objetivo | Estado |
 |---|---|---|
-| F0 | Setup: monorepo, Supabase, migraciones, tipos | En curso: falta conectar Supabase |
+| F0 | Setup: monorepo, Supabase, migraciones, tipos | Hecha |
 | F1 | Auth, roles, layouts y guards | Código hecho, falta probar |
 | F1b | Web pública: carrusel, portfolio, contacto | Hecha, falta contenido real |
 | F2 | Galerías CRUD (fotógrafo) | Pendiente |
@@ -33,11 +33,11 @@
 - [x] `pnpm dev` levanta la app
 - [x] Git + GitHub, ramas `main` y `dev`
 - [x] Supabase CLI en el proyecto (`pnpm supabase`), sin Docker
-- [ ] Crear el proyecto en supabase.com *(usuario)*
-- [ ] `pnpm supabase login` y `pnpm db:link --project-ref <ref>` *(usuario: pide la contraseña de la BD)*
-- [ ] `pnpm db:push`: aplicar las 4 migraciones
-- [ ] `pnpm db:types:remote`: generar `apps/web/src/types/database.ts`
-- [ ] `apps/web/.env.local` con URL + anon key reales y quitar `VITE_DEV_PREVIEW_ROLE`
+- [x] Proyecto `reverteFotografos` en supabase.com (Europa, ref `gbymaufmavdvgfqmoeof`)
+- [x] `supabase login` y `supabase link --project-ref gbymaufmavdvgfqmoeof`
+- [x] `pnpm db:push`: 4 migraciones aplicadas (CLI v3: los scripts usan `--remote`)
+- [x] `pnpm db:types:remote`: `apps/web/src/types/database.ts` generado
+- [x] `apps/web/.env.local` con URL + publishable key reales
 
 ## F1 — Auth y roles
 

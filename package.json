@@ -16,8 +16,8 @@
     "db:types": "supabase gen types typescript --local > apps/web/src/types/database.ts",
     "fn:serve": "supabase functions serve",
     "db:link": "supabase link",
-    "db:push": "supabase db push",
-    "db:types:remote": "supabase gen types typescript --linked > apps/web/src/types/database.ts",
+    "db:push": "supabase db push --remote",
+    "db:types:remote": "supabase gen types typescript --remote > apps/web/src/types/database.ts",
     "fn:deploy": "supabase functions deploy"
   },
   "devDependencies": {
