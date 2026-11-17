@@ -18,7 +18,7 @@
     "db:link": "supabase link",
     "db:push": "supabase db push --remote",
     "db:types:remote": "supabase gen types typescript --remote > apps/web/src/types/database.ts",
-    "fn:deploy": "supabase functions deploy"
+    "fn:deploy": "supabase functions deploy --remote --import-map supabase/functions/deno.json"
   },
   "devDependencies": {
     "prettier": "^3.3.3",

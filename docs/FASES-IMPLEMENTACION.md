@@ -14,7 +14,7 @@
 | Fase | Objetivo | Estado |
 |---|---|---|
 | F0 | Setup: monorepo, Supabase, migraciones, tipos | Hecha |
-| F1 | Auth, roles, layouts y guards | Código hecho, falta probar |
+| F1 | Auth, roles, layouts y guards | Hecha |
 | F1b | Web pública: carrusel, portfolio, contacto | Hecha, falta contenido real |
 | F2 | Galerías CRUD (fotógrafo) | Pendiente |
 | F3 | Subida a R2 + procesado (thumb, preview, marca de agua) | Pendiente |
@@ -41,16 +41,17 @@
 
 ## F1 — Auth y roles
 
-- [~] Login, registro y recuperar contraseña (UI + lógica)
-- [~] Trigger `handle_new_user` crea el perfil con rol `client`
-- [~] Edge Function `claim-photographer` (código de invitación)
+- [x] Login, registro y recuperar contraseña (UI + lógica)
+- [x] Trigger `handle_new_user` crea el perfil con rol `client`
+- [x] Edge Function `claim-photographer` (código de invitación)
 - [x] `AuthProvider` + `useSession`, `RequireAuth` / `RequireRole`
 - [x] Layouts fotógrafo (barra lateral) y cliente (oscuro)
 - [x] Vista previa sin Supabase solo en desarrollo (`VITE_DEV_PREVIEW_ROLE`)
 - [x] Decisión: alta de fotógrafo por código de invitación
-- [ ] Panel de Supabase: Site URL, Redirect URLs y plantillas de email en español
-- [ ] Secret `PHOTOGRAPHER_INVITE_CODE` y desplegar `claim-photographer`
-- [ ] Probar: registro de cliente, registro de fotógrafo con código, login, reset y redirección por rol
+- [x] Panel de Supabase: Site URL y Redirect URLs (`http://localhost:5173/**`)
+- [x] Secret `PHOTOGRAPHER_INVITE_CODE` y desplegar `claim-photographer`
+      (`pnpm fn:deploy <nombre>`: necesita `--import-map` para resolver `@galeria/shared`)
+- [x] Probado: registro de cliente, registro de fotógrafo con código, login, reset y redirección por rol
 - [ ] `AcceptInvitePage` (`/invite/:token`): se completa en F4
 
 ## F1b — Web pública
@@ -105,6 +106,7 @@
 
 - [ ] Logo y nombre del fotógrafo en la vista cliente
 - [ ] Emails con Resend (invitación, selección enviada, nuevo mensaje)
+- [ ] Plantillas de email de Supabase Auth en español (confirmar cuenta, reset) + SMTP propio
 - [ ] Caducidad de galerías
 
 ## F8 — Extras
