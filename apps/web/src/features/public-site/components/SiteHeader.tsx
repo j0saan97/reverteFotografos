@@ -45,6 +45,16 @@ export function SiteHeader() {
             </a>
           ))}
           <Link
+            to="/my/reservar"
+            className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+              solid
+                ? 'bg-stone-900 text-white hover:bg-stone-800'
+                : 'bg-white text-stone-900 hover:bg-stone-100'
+            }`}
+          >
+            Reservar
+          </Link>
+          <Link
             to="/login"
             className={`rounded-full px-4 py-2 text-sm font-medium ring-1 transition-colors ${
               solid
@@ -83,8 +93,14 @@ export function SiteHeader() {
             </a>
           ))}
           <Link
-            to="/login"
+            to="/my/reservar"
             className="mt-5 block rounded-full bg-stone-900 py-3 text-center text-sm font-medium text-white"
+          >
+            Reservar
+          </Link>
+          <Link
+            to="/login"
+            className="mt-3 block rounded-full py-3 text-center text-sm font-medium ring-1 ring-stone-900"
           >
             Acceso clientes
           </Link>

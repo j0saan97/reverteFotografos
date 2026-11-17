@@ -129,7 +129,7 @@ Tareas:
       `request_booking` / `respond_booking` / `confirm_booking` / `cancel_booking`. Probada con un
       test SQL que se deshace solo (huecos, día completo, doble reserva rechazada, aceptar, confirmar, cancelar)
 - [~] **R1.2** Panel: CRUD de productos, horario semanal y bloqueos
-- [ ] **R1.3** Componente `BookingCalendar`: producto → día (mes con días disponibles) → franja → nota → enviar
+- [~] **R1.3** Componente `BookingCalendar`: producto → día (mes con días disponibles) → franja → nota → enviar
 - [ ] **R1.4** Mis reservas (cliente) y bandeja de reservas (fotógrafo): aceptar / rechazar / cancelar
 - [ ] **R1.5** Caducar solicitudes no atendidas (libera la franja) (ya caducan a las 48 h al consultar/reservar; falta el job periódico)
 - [ ] **R1.6** Emails: solicitud recibida, aceptada, rechazada

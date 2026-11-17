@@ -20,6 +20,12 @@ export function ClientLayout({ userName, onSignOut, banner, children }: ClientLa
             <Brand className="text-xl text-white" />
           </Link>
           <div className="flex items-center gap-4">
+            <Link
+              to="/my/reservar"
+              className="rounded-lg border border-white/20 px-3 py-1.5 text-sm text-white transition-colors hover:bg-white/10"
+            >
+              Reservar sesión
+            </Link>
             <span className="hidden text-sm text-neutral-400 sm:inline">{userName}</span>
             <button
               type="button"

@@ -11,7 +11,7 @@ import {
   NewGalleryPage,
 } from '@/features/galleries'
 import { ClientsListPage } from '@/features/clients'
-import { BookingSettingsPage } from '@/features/bookings'
+import { BookingPage, BookingSettingsPage } from '@/features/bookings'
 import { SelectionReviewPage, ClientSelectionPage } from '@/features/selections'
 import { ClientHomePage, GalleryAccessPage, GalleryViewPage } from '@/features/client-gallery'
 import { DashboardPage, BrandingSettingsPage } from '@/features/dashboard'
@@ -55,6 +55,7 @@ export const router = createBrowserRouter([
     ),
     children: [
       { path: '/my', element: <ClientHomePage /> },
+      { path: '/my/reservar', element: <BookingPage /> },
       { path: '/my/:slug', element: <GalleryViewPage /> },
       { path: '/my/:slug/selection', element: <ClientSelectionPage /> },
     ],
