@@ -1,0 +1,6 @@
+# Third-party screenshots stay local (not published to GitHub)
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.heic

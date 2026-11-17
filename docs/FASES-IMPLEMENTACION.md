@@ -16,7 +16,7 @@
 | F0 | Setup: monorepo, Supabase, migraciones, tipos | Hecha |
 | F1 | Auth, roles, layouts y guards | Hecha |
 | F1b | Web pública: carrusel, portfolio, contacto | Hecha, falta contenido real |
-| F2 | Galerías CRUD (fotógrafo) | Pendiente |
+| F2 | Galerías CRUD (fotógrafo) | Código hecho, falta probar |
 | F3 | Subida a R2 + procesado (thumb, preview, marca de agua) | Pendiente |
 | F4 | Vista cliente protegida + acceso por invitación / PIN | Pendiente |
 | F5 | Selección, comentarios por foto, envío y mensajes | Pendiente |
@@ -68,10 +68,12 @@
 
 ## F2 — Galerías (fotógrafo)
 
-- [ ] Listado, crear y editar
-- [ ] Ajustes: descarga, selección, máx. selección, PIN, caducidad, marca de agua
-- [ ] Publicar / archivar, slug único
-- [ ] Dashboard con resumen (galerías, selecciones pendientes, mensajes)
+- [~] Listado con filtros por estado, crear y editar
+- [~] Ajustes: descarga, selección, máx. selección, caducidad, marca de agua
+- [~] PIN: se cifra en la BD con `set_gallery_pin` (bcrypt); la UI solo ve `has_pin`
+- [~] Publicar / pasar a borrador / archivar / eliminar; slug único con sufijo aleatorio
+- [~] Dashboard con resumen (publicadas, borradores, selecciones recibidas, mensajes sin leer)
+- [x] Migración `gallery_settings`: `has_pin`, GRANT por columna (no se escribe `pin_hash` ni `photographer_id`)
 
 ## F3 — Subida y procesado
 
@@ -81,6 +83,7 @@
 - [ ] `process-photo` → thumb + preview con marca de agua (decidir: Cloudflare Images o `image-worker` con sharp)
 - [ ] Realtime: la foto aparece al pasar a `ready`
 - [ ] Orden manual y portada
+- [ ] Al eliminar una galería, borrar también sus archivos en R2 (ahora solo se borran las filas)
 
 ## F4 — Vista cliente protegida
 

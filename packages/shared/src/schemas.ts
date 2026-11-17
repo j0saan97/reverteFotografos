@@ -35,17 +35,35 @@ export const claimPhotographerSchema = z.object({
   code: z.string().trim().min(1, 'Introduce el código').max(64),
 })
 
+const galleryTitleField = z
+  .string()
+  .trim()
+  .min(1, 'Ponle un título a la galería')
+  .max(120, 'Máximo 120 caracteres')
+
+export const galleryCreateSchema = z.object({ title: galleryTitleField })
+
+// Form shape. maxSelection/watermarkText/expiresAt are null when left empty.
+// expiresAt is a calendar date (YYYY-MM-DD): the gallery expires at the end of that day.
 export const gallerySettingsSchema = z.object({
-  title: z.string().min(1).max(120),
+  title: galleryTitleField,
   allowDownload: z.boolean(),
   allowSelection: z.boolean(),
-  maxSelection: z.number().int().positive().nullable(),
-  pin: z
-    .string()
-    .regex(/^\d{4,8}$/)
+  maxSelection: z
+    .number({ invalid_type_error: 'Introduce un número' })
+    .int('Introduce un número entero')
+    .positive('Debe ser mayor que 0')
+    .max(10000, 'Máximo 10000')
     .nullable(),
-  watermarkText: z.string().max(60).nullable(),
-  expiresAt: z.string().datetime().nullable(),
+  watermarkText: z.string().trim().max(60, 'Máximo 60 caracteres').nullable(),
+  expiresAt: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, 'Fecha no válida')
+    .nullable(),
+})
+
+export const galleryPinSchema = z.object({
+  pin: z.string().regex(/^\d{4,8}$/, 'El PIN debe tener entre 4 y 8 dígitos'),
 })
 
 export const signUploadSchema = z.object({

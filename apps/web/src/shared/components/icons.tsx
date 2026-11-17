@@ -55,6 +55,34 @@ export const LogoutIcon = (p: SVGProps<SVGSVGElement>) => (
   </Icon>
 )
 
+export const PlusIcon = (p: SVGProps<SVGSVGElement>) => (
+  <Icon {...p}>
+    <path d="M12 5v14M5 12h14" />
+  </Icon>
+)
+
+export const SettingsIcon = (p: SVGProps<SVGSVGElement>) => (
+  <Icon {...p}>
+    <path d="M4 7h10M18 7h2M4 17h4M12 17h8" />
+    <circle cx="16" cy="7" r="2" />
+    <circle cx="10" cy="17" r="2" />
+  </Icon>
+)
+
+export const LockIcon = (p: SVGProps<SVGSVGElement>) => (
+  <Icon {...p}>
+    <rect x="4.5" y="10.5" width="15" height="10" rx="2" />
+    <path d="M8 10.5V7a4 4 0 0 1 8 0v3.5" />
+  </Icon>
+)
+
+export const ClockIcon = (p: SVGProps<SVGSVGElement>) => (
+  <Icon {...p}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M12 7v5l3 2" />
+  </Icon>
+)
+
 export const MenuIcon = (p: SVGProps<SVGSVGElement>) => (
   <Icon {...p}>
     <path d="M4 6h16M4 12h16M4 18h16" />
