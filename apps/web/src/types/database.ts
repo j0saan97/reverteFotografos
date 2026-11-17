@@ -1,10 +1,16 @@
-export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[]
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[]
 
 export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: '14.18'
+    PostgrestVersion: "14.18"
   }
   graphql_public: {
     Tables: {
@@ -33,6 +39,193 @@ export type Database = {
   }
   public: {
     Tables: {
+      availability_blocks: {
+        Row: {
+          created_at: string
+          ends_at: string
+          id: string
+          photographer_id: string
+          reason: string | null
+          starts_at: string
+        }
+        Insert: {
+          created_at?: string
+          ends_at: string
+          id?: string
+          photographer_id: string
+          reason?: string | null
+          starts_at: string
+        }
+        Update: {
+          created_at?: string
+          ends_at?: string
+          id?: string
+          photographer_id?: string
+          reason?: string | null
+          starts_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "availability_blocks_photographer_id_fkey"
+            columns: ["photographer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      availability_rules: {
+        Row: {
+          end_time: string
+          id: string
+          photographer_id: string
+          start_time: string
+          weekday: number
+        }
+        Insert: {
+          end_time: string
+          id?: string
+          photographer_id: string
+          start_time: string
+          weekday: number
+        }
+        Update: {
+          end_time?: string
+          id?: string
+          photographer_id?: string
+          start_time?: string
+          weekday?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "availability_rules_photographer_id_fkey"
+            columns: ["photographer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      booking_products: {
+        Row: {
+          active: boolean
+          created_at: string
+          deposit_cents: number | null
+          description: string | null
+          duration_minutes: number | null
+          full_day: boolean
+          id: string
+          name: string
+          photographer_id: string
+          position: number
+          price_cents: number | null
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          deposit_cents?: number | null
+          description?: string | null
+          duration_minutes?: number | null
+          full_day?: boolean
+          id?: string
+          name: string
+          photographer_id: string
+          position?: number
+          price_cents?: number | null
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          deposit_cents?: number | null
+          description?: string | null
+          duration_minutes?: number | null
+          full_day?: boolean
+          id?: string
+          name?: string
+          photographer_id?: string
+          position?: number
+          price_cents?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "booking_products_photographer_id_fkey"
+            columns: ["photographer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bookings: {
+        Row: {
+          client_id: string
+          client_note: string | null
+          code: string
+          created_at: string
+          ends_at: string
+          expires_at: string | null
+          id: string
+          photographer_id: string
+          photographer_note: string | null
+          product_id: string
+          starts_at: string
+          status: Database["public"]["Enums"]["booking_status"]
+          updated_at: string
+        }
+        Insert: {
+          client_id: string
+          client_note?: string | null
+          code: string
+          created_at?: string
+          ends_at: string
+          expires_at?: string | null
+          id?: string
+          photographer_id: string
+          photographer_note?: string | null
+          product_id: string
+          starts_at: string
+          status?: Database["public"]["Enums"]["booking_status"]
+          updated_at?: string
+        }
+        Update: {
+          client_id?: string
+          client_note?: string | null
+          code?: string
+          created_at?: string
+          ends_at?: string
+          expires_at?: string | null
+          id?: string
+          photographer_id?: string
+          photographer_note?: string | null
+          product_id?: string
+          starts_at?: string
+          status?: Database["public"]["Enums"]["booking_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_photographer_id_fkey"
+            columns: ["photographer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "booking_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contact_requests: {
         Row: {
           created_at: string
@@ -93,18 +286,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'downloads_client_id_fkey'
-            columns: ['client_id']
+            foreignKeyName: "downloads_client_id_fkey"
+            columns: ["client_id"]
             isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['id']
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'downloads_photo_id_fkey'
-            columns: ['photo_id']
+            foreignKeyName: "downloads_photo_id_fkey"
+            columns: ["photo_id"]
             isOneToOne: false
-            referencedRelation: 'photos'
-            referencedColumns: ['id']
+            referencedRelation: "photos"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -127,7 +320,7 @@ export type Database = {
           pin_hash: string | null
           sent_at: string | null
           slug: string
-          status: Database['public']['Enums']['gallery_status']
+          status: Database["public"]["Enums"]["gallery_status"]
           title: string
           watermark_text: string | null
         }
@@ -149,7 +342,7 @@ export type Database = {
           pin_hash?: string | null
           sent_at?: string | null
           slug: string
-          status?: Database['public']['Enums']['gallery_status']
+          status?: Database["public"]["Enums"]["gallery_status"]
           title: string
           watermark_text?: string | null
         }
@@ -171,24 +364,24 @@ export type Database = {
           pin_hash?: string | null
           sent_at?: string | null
           slug?: string
-          status?: Database['public']['Enums']['gallery_status']
+          status?: Database["public"]["Enums"]["gallery_status"]
           title?: string
           watermark_text?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: 'galleries_cover_fk'
-            columns: ['cover_photo_id']
+            foreignKeyName: "galleries_cover_fk"
+            columns: ["cover_photo_id"]
             isOneToOne: false
-            referencedRelation: 'photos'
-            referencedColumns: ['id']
+            referencedRelation: "photos"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'galleries_photographer_id_fkey'
-            columns: ['photographer_id']
+            foreignKeyName: "galleries_photographer_id_fkey"
+            columns: ["photographer_id"]
             isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['id']
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -222,18 +415,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'gallery_access_client_id_fkey'
-            columns: ['client_id']
+            foreignKeyName: "gallery_access_client_id_fkey"
+            columns: ["client_id"]
             isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['id']
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'gallery_access_gallery_id_fkey'
-            columns: ['gallery_id']
+            foreignKeyName: "gallery_access_gallery_id_fkey"
+            columns: ["gallery_id"]
             isOneToOne: false
-            referencedRelation: 'galleries'
-            referencedColumns: ['id']
+            referencedRelation: "galleries"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -267,25 +460,25 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'gallery_messages_author_id_fkey'
-            columns: ['author_id']
+            foreignKeyName: "gallery_messages_author_id_fkey"
+            columns: ["author_id"]
             isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['id']
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'gallery_messages_gallery_id_fkey'
-            columns: ['gallery_id']
+            foreignKeyName: "gallery_messages_gallery_id_fkey"
+            columns: ["gallery_id"]
             isOneToOne: false
-            referencedRelation: 'galleries'
-            referencedColumns: ['id']
+            referencedRelation: "galleries"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'gallery_messages_photo_id_fkey'
-            columns: ['photo_id']
+            foreignKeyName: "gallery_messages_photo_id_fkey"
+            columns: ["photo_id"]
             isOneToOne: false
-            referencedRelation: 'photos'
-            referencedColumns: ['id']
+            referencedRelation: "photos"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -300,7 +493,7 @@ export type Database = {
           position: number
           preview_key: string | null
           size_bytes: number | null
-          status: Database['public']['Enums']['photo_status']
+          status: Database["public"]["Enums"]["photo_status"]
           thumb_key: string | null
           width: number | null
         }
@@ -314,7 +507,7 @@ export type Database = {
           position?: number
           preview_key?: string | null
           size_bytes?: number | null
-          status?: Database['public']['Enums']['photo_status']
+          status?: Database["public"]["Enums"]["photo_status"]
           thumb_key?: string | null
           width?: number | null
         }
@@ -328,17 +521,17 @@ export type Database = {
           position?: number
           preview_key?: string | null
           size_bytes?: number | null
-          status?: Database['public']['Enums']['photo_status']
+          status?: Database["public"]["Enums"]["photo_status"]
           thumb_key?: string | null
           width?: number | null
         }
         Relationships: [
           {
-            foreignKeyName: 'photos_gallery_id_fkey'
-            columns: ['gallery_id']
+            foreignKeyName: "photos_gallery_id_fkey"
+            columns: ["gallery_id"]
             isOneToOne: false
-            referencedRelation: 'galleries'
-            referencedColumns: ['id']
+            referencedRelation: "galleries"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -349,7 +542,7 @@ export type Database = {
           created_at: string
           display_name: string | null
           id: string
-          role: Database['public']['Enums']['user_role']
+          role: Database["public"]["Enums"]["user_role"]
         }
         Insert: {
           brand_logo_key?: string | null
@@ -357,7 +550,7 @@ export type Database = {
           created_at?: string
           display_name?: string | null
           id: string
-          role?: Database['public']['Enums']['user_role']
+          role?: Database["public"]["Enums"]["user_role"]
         }
         Update: {
           brand_logo_key?: string | null
@@ -365,7 +558,7 @@ export type Database = {
           created_at?: string
           display_name?: string | null
           id?: string
-          role?: Database['public']['Enums']['user_role']
+          role?: Database["public"]["Enums"]["user_role"]
         }
         Relationships: []
       }
@@ -390,18 +583,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'selection_items_photo_id_fkey'
-            columns: ['photo_id']
+            foreignKeyName: "selection_items_photo_id_fkey"
+            columns: ["photo_id"]
             isOneToOne: false
-            referencedRelation: 'photos'
-            referencedColumns: ['id']
+            referencedRelation: "photos"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'selection_items_selection_id_fkey'
-            columns: ['selection_id']
+            foreignKeyName: "selection_items_selection_id_fkey"
+            columns: ["selection_id"]
             isOneToOne: false
-            referencedRelation: 'selections'
-            referencedColumns: ['id']
+            referencedRelation: "selections"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -435,18 +628,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'selections_client_id_fkey'
-            columns: ['client_id']
+            foreignKeyName: "selections_client_id_fkey"
+            columns: ["client_id"]
             isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['id']
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'selections_gallery_id_fkey'
-            columns: ['gallery_id']
+            foreignKeyName: "selections_gallery_id_fkey"
+            columns: ["gallery_id"]
             isOneToOne: false
-            referencedRelation: 'galleries'
-            referencedColumns: ['id']
+            referencedRelation: "galleries"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -455,18 +648,135 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      available_slots: {
+        Args: { p_from: string; p_product: string; p_to: string }
+        Returns: {
+          ends_at: string
+          starts_at: string
+        }[]
+      }
+      business_tz: { Args: never; Returns: string }
+      cancel_booking: {
+        Args: { p_booking: string }
+        Returns: {
+          client_id: string
+          client_note: string | null
+          code: string
+          created_at: string
+          ends_at: string
+          expires_at: string | null
+          id: string
+          photographer_id: string
+          photographer_note: string | null
+          product_id: string
+          starts_at: string
+          status: Database["public"]["Enums"]["booking_status"]
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "bookings"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      confirm_booking: {
+        Args: { p_booking: string }
+        Returns: {
+          client_id: string
+          client_note: string | null
+          code: string
+          created_at: string
+          ends_at: string
+          expires_at: string | null
+          id: string
+          photographer_id: string
+          photographer_note: string | null
+          product_id: string
+          starts_at: string
+          status: Database["public"]["Enums"]["booking_status"]
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "bookings"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      expire_pending_bookings: {
+        Args: { p_photographer: string }
+        Returns: undefined
+      }
       has_gallery_access: { Args: { gid: string }; Returns: boolean }
       is_gallery_owner: { Args: { gid: string }; Returns: boolean }
       is_photographer: { Args: never; Returns: boolean }
+      new_booking_code: { Args: never; Returns: string }
+      request_booking: {
+        Args: { p_note: string; p_product: string; p_starts_at: string }
+        Returns: {
+          client_id: string
+          client_note: string | null
+          code: string
+          created_at: string
+          ends_at: string
+          expires_at: string | null
+          id: string
+          photographer_id: string
+          photographer_note: string | null
+          product_id: string
+          starts_at: string
+          status: Database["public"]["Enums"]["booking_status"]
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "bookings"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      respond_booking: {
+        Args: { p_accept: boolean; p_booking: string; p_note: string }
+        Returns: {
+          client_id: string
+          client_note: string | null
+          code: string
+          created_at: string
+          ends_at: string
+          expires_at: string | null
+          id: string
+          photographer_id: string
+          photographer_note: string | null
+          product_id: string
+          starts_at: string
+          status: Database["public"]["Enums"]["booking_status"]
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "bookings"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       set_gallery_pin: {
         Args: { gallery_id: string; pin: string }
         Returns: undefined
       }
     }
     Enums: {
-      gallery_status: 'draft' | 'published' | 'archived'
-      photo_status: 'uploading' | 'processing' | 'ready' | 'error'
-      user_role: 'photographer' | 'client'
+      booking_status:
+        | "pending"
+        | "awaiting_payment"
+        | "payment_reported"
+        | "confirmed"
+        | "rejected"
+        | "cancelled"
+        | "expired"
+      gallery_status: "draft" | "published" | "archived"
+      photo_status: "uploading" | "processing" | "ready" | "error"
+      user_role: "photographer" | "client"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -474,31 +784,33 @@ export type Database = {
   }
 }
 
-type DatabaseWithoutInternals = Omit<Database, '__InternalSupabase'>
+type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
 
-type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, 'public'>]
+type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
 
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
-    | keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
+    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
-        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Views'])
+    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
     : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
-      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Views'])[TableName] extends {
+  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
       Row: infer R
     }
     ? R
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
-    ? (DefaultSchema['Tables'] & DefaultSchema['Views'])[DefaultSchemaTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])
+    ? (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
         Row: infer R
       }
       ? R
@@ -507,22 +819,23 @@ export type Tables<
 
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
-    keyof DefaultSchema['Tables'] | { schema: keyof DatabaseWithoutInternals },
+    | keyof DefaultSchema["Tables"]
+    | { schema: keyof DatabaseWithoutInternals },
   TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables']
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I
     }
     ? I
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
-    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
         Insert: infer I
       }
       ? I
@@ -531,22 +844,23 @@ export type TablesInsert<
 
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
-    keyof DefaultSchema['Tables'] | { schema: keyof DatabaseWithoutInternals },
+    | keyof DefaultSchema["Tables"]
+    | { schema: keyof DatabaseWithoutInternals },
   TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables']
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U
     }
     ? U
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
-    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
         Update: infer U
       }
       ? U
@@ -555,34 +869,36 @@ export type TablesUpdate<
 
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
-    keyof DefaultSchema['Enums'] | { schema: keyof DatabaseWithoutInternals },
+    | keyof DefaultSchema["Enums"]
+    | { schema: keyof DatabaseWithoutInternals },
   EnumName extends (DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions['schema']]['Enums']
+    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
     : never) = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions['schema']]['Enums'][EnumName]
-  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema['Enums']
-    ? DefaultSchema['Enums'][DefaultSchemaEnumNameOrOptions]
+  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
+    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
     : never
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
-    keyof DefaultSchema['CompositeTypes'] | { schema: keyof DatabaseWithoutInternals },
+    | keyof DefaultSchema["CompositeTypes"]
+    | { schema: keyof DatabaseWithoutInternals },
   CompositeTypeName extends (PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes']
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
     : never) = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes'][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema['CompositeTypes']
-    ? DefaultSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
+  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
+    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
 
 export const Constants = {
@@ -591,9 +907,18 @@ export const Constants = {
   },
   public: {
     Enums: {
-      gallery_status: ['draft', 'published', 'archived'],
-      photo_status: ['uploading', 'processing', 'ready', 'error'],
-      user_role: ['photographer', 'client'],
+      booking_status: [
+        "pending",
+        "awaiting_payment",
+        "payment_reported",
+        "confirmed",
+        "rejected",
+        "cancelled",
+        "expired",
+      ],
+      gallery_status: ["draft", "published", "archived"],
+      photo_status: ["uploading", "processing", "ready", "error"],
+      user_role: ["photographer", "client"],
     },
   },
 } as const

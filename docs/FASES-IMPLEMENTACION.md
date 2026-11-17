@@ -20,8 +20,8 @@ renumerar las existentes, para que las referencias (commits, conversaciones) sig
 | F0 | Setup: monorepo, Supabase, migraciones, tipos | Hecha |
 | F1 | Auth, roles, layouts y guards | Hecha |
 | F1b | Web pública: carrusel, portfolio, contacto | Hecha, falta contenido real |
-| F2 | Galerías CRUD (fotógrafo) | Código hecho, falta probar |
-| R1 | Reservas: calendario con producto, día y franja (solicitud + confirmación) | Diseño |
+| F2 | Galerías CRUD (fotógrafo) | Hecha (falta probar el PIN, F2.3) |
+| R1 | Reservas: calendario con producto, día y franja (solicitud + confirmación) | En curso (R1.1 hecha) |
 | R2 | Señal por transferencia/Bizum + bot de WhatsApp que lee el justificante | Diseño |
 | F3 | Subida a R2 + procesado (thumb, preview, marca de agua) | Pendiente |
 | F4 | Vista cliente protegida + acceso por invitación / PIN | Pendiente |
@@ -82,11 +82,11 @@ renumerar las existentes, para que las referencias (commits, conversaciones) sig
 
 ## F2 — Galerías (fotógrafo)
 
-- [~] **F2.1** Listado con filtros por estado, crear y editar
-- [~] **F2.2** Ajustes: descarga, selección, máx. selección, caducidad, marca de agua
-- [~] **F2.3** PIN: se cifra en la BD con `set_gallery_pin` (bcrypt); la UI solo ve `has_pin`
-- [~] **F2.4** Publicar / pasar a borrador / archivar / eliminar; slug único con sufijo aleatorio
-- [~] **F2.5** Dashboard con resumen (publicadas, borradores, selecciones recibidas, mensajes sin leer)
+- [x] **F2.1** Listado con filtros por estado, crear y editar
+- [x] **F2.2** Ajustes: descarga, selección, máx. selección, caducidad, marca de agua
+- [~] **F2.3** PIN: se cifra en la BD con `set_gallery_pin` (bcrypt); la UI solo ve `has_pin` — *prueba aplazada*
+- [x] **F2.4** Publicar / pasar a borrador / archivar / eliminar; slug único con sufijo aleatorio
+- [x] **F2.5** Dashboard con resumen (publicadas, borradores, selecciones recibidas, mensajes sin leer)
 - [x] **F2.6** Migración `gallery_settings`: `has_pin`, GRANT por columna (no se escribe `pin_hash` ni `photographer_id`)
 
 Ampliación según la referencia ([inventario](referencias/iphoto-galeria/README.md), captura 01):
@@ -125,13 +125,15 @@ Modelo de datos (borrador):
   aunque lleguen a la vez.
 
 Tareas:
-- [ ] **R1.1** Migración: tablas + RLS + función que calcula huecos libres (`available_slots(product, from, to)`)
+- [x] **R1.1** Migración `bookings`: tablas + RLS + `available_slots(product, from, to)` y funciones
+      `request_booking` / `respond_booking` / `confirm_booking` / `cancel_booking`. Probada con un
+      test SQL que se deshace solo (huecos, día completo, doble reserva rechazada, aceptar, confirmar, cancelar)
 - [ ] **R1.2** Panel: CRUD de productos, horario semanal y bloqueos
 - [ ] **R1.3** Componente `BookingCalendar`: producto → día (mes con días disponibles) → franja → nota → enviar
 - [ ] **R1.4** Mis reservas (cliente) y bandeja de reservas (fotógrafo): aceptar / rechazar / cancelar
-- [ ] **R1.5** Caducar solicitudes no atendidas (libera la franja)
+- [~] **R1.5** Caducar solicitudes no atendidas (libera la franja) — caducan a las 48 h al consultar/reservar (`expire_pending_bookings`); falta un job periódico
 - [ ] **R1.6** Emails: solicitud recibida, aceptada, rechazada
-- [ ] **R1.7** Zona horaria fija del negocio (`Europe/Madrid`)
+- [~] **R1.7** Zona horaria fija del negocio (`Europe/Madrid`) — en la BD (`business_tz()`); falta mostrar las horas en Madrid en la UI
 
 ## R2 — Señal y bot de WhatsApp
 
