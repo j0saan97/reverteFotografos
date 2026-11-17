@@ -21,6 +21,12 @@ export function ClientLayout({ userName, onSignOut, banner, children }: ClientLa
           </Link>
           <div className="flex items-center gap-4">
             <Link
+              to="/my/reservas"
+              className="text-sm text-neutral-300 transition-colors hover:text-white"
+            >
+              Mis reservas
+            </Link>
+            <Link
               to="/my/reservar"
               className="rounded-lg border border-white/20 px-3 py-1.5 text-sm text-white transition-colors hover:bg-white/10"
             >

@@ -354,10 +354,10 @@ function BookingRequested({ booking, product }: { booking: Booking; product: Boo
         <span className="font-mono text-base font-semibold text-white">{booking.code}</span>
       </p>
       <Link
-        to="/my"
+        to="/my/reservas"
         className="mt-6 inline-block rounded-lg bg-white px-5 py-2.5 text-sm font-medium text-neutral-950 hover:bg-neutral-200"
       >
-        Volver a mi área
+        Ver mis reservas
       </Link>
     </section>
   )

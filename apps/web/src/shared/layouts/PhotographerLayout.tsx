@@ -15,7 +15,7 @@ import {
 const NAV = [
   { to: '/dashboard', label: 'Panel', icon: HomeIcon },
   { to: '/galleries', label: 'Galerías', icon: GalleryIcon },
-  { to: '/bookings/settings', label: 'Reservas', icon: CalendarIcon },
+  { to: '/bookings', label: 'Reservas', icon: CalendarIcon },
   { to: '/clients', label: 'Clientes', icon: UsersIcon },
   { to: '/settings/branding', label: 'Marca', icon: BrushIcon },
 ]

@@ -29,6 +29,7 @@ renumerar las existentes, para que las referencias (commits, conversaciones) sig
 | F6 | Descargas firmadas + ZIP + auditoría | Pendiente |
 | F7 | Branding del fotógrafo, emails y caducidades | Pendiente |
 | F8 | Extras: estadísticas, tienda de impresiones | Pendiente |
+| M1 | Separar web pública y app de galerías (siguiente sprint) | Pendiente |
 
 ## F0 — Setup
 
@@ -130,7 +131,7 @@ Tareas:
       test SQL que se deshace solo (huecos, día completo, doble reserva rechazada, aceptar, confirmar, cancelar)
 - [~] **R1.2** Panel: CRUD de productos, horario semanal y bloqueos
 - [~] **R1.3** Componente `BookingCalendar`: producto → día (mes con días disponibles) → franja → nota → enviar
-- [ ] **R1.4** Mis reservas (cliente) y bandeja de reservas (fotógrafo): aceptar / rechazar / cancelar
+- [~] **R1.4** Mis reservas (cliente) y bandeja de reservas (fotógrafo): aceptar / rechazar / cancelar
 - [ ] **R1.5** Caducar solicitudes no atendidas (libera la franja) (ya caducan a las 48 h al consultar/reservar; falta el job periódico)
 - [ ] **R1.6** Emails: solicitud recibida, aceptada, rechazada
 - [ ] **R1.7** Zona horaria fija del negocio (`Europe/Madrid`) (ya aplicada en la BD; falta mostrarla en la UI)
@@ -215,6 +216,17 @@ Tareas:
 ## F8 — Extras
 
 - [ ] **F8.1** Estadísticas, tienda de impresiones, etc.
+
+## M1 — Separar web pública y app (siguiente sprint)
+
+Decisión (2026-11-17): se hace en el sprint 3, no en el actual. Monorepo, no ramas.
+Pendiente de decidir: ¿la app es solo para Reverte o un producto para otros fotógrafos (multi-fotógrafo)?
+
+- [ ] **M1.1** `apps/site`: web pública (portada, portfolio, contacto, botón Reservar); valorar Astro para SEO
+- [ ] **M1.2** `apps/app`: galerías, reservas y panel con nombre/dominio propios
+- [ ] **M1.3** `packages/ui`: componentes y tokens de diseño compartidos (Button, campos, iconos, Checkbox)
+- [ ] **M1.4** Login y "Reservar" entre dominios; Site URL / Redirect URLs de Supabase para ambos
+- [ ] **M1.5** Despliegue independiente de cada app
 
 ## Transversal / despliegue
 

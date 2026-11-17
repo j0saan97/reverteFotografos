@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { GalleryCard, useGalleries } from '@/features/galleries'
 import { useSession } from '@/features/auth'
+import { usePhotographerBookings } from '@/features/bookings'
 import { Alert, PageHeader, PlusIcon } from '@/shared/components'
 import { toMessage } from '@/shared/lib/errors'
 import { dashboardService } from '../services/dashboardService'
@@ -12,6 +13,7 @@ export function DashboardPage() {
   const { session, profile } = useSession()
   const userId = session?.user.id ?? ''
   const galleries = useGalleries()
+  const bookings = usePhotographerBookings()
   const counts = useQuery({
     queryKey: ['dashboard', 'counts', userId],
     queryFn: () => dashboardService.counts(userId),
@@ -23,7 +25,10 @@ export function DashboardPage() {
   const drafts = list.filter((g) => g.status === 'draft').length
   const error = galleries.error ?? counts.error
 
+  const pendingBookings = bookings.data?.filter((b) => b.status === 'pending').length ?? null
+
   const stats = [
+    { label: 'Reservas por aceptar', value: pendingBookings, to: '/bookings' },
     { label: 'Galerías publicadas', value: galleries.data ? published : null },
     { label: 'Borradores', value: galleries.data ? drafts : null },
     { label: 'Selecciones recibidas', value: counts.data?.submittedSelections ?? null },
@@ -48,15 +53,27 @@ export function DashboardPage() {
 
       {error && <Alert tone="error">No se pudo cargar el resumen: {toMessage(error)}</Alert>}
 
-      <dl className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        {stats.map((s) => (
-          <div key={s.label} className="rounded-xl border border-stone-200 bg-white p-5">
-            <dt className="text-sm text-stone-500">{s.label}</dt>
-            <dd className="mt-2 font-display text-4xl font-medium text-stone-900">
-              {s.value ?? <span className="text-stone-300">—</span>}
-            </dd>
-          </div>
-        ))}
+      <dl className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-5">
+        {stats.map((s) => {
+          const body = (
+            <>
+              <dt className="text-sm text-stone-500">{s.label}</dt>
+              <dd className="mt-2 font-display text-4xl font-medium text-stone-900">
+                {s.value ?? <span className="text-stone-300">—</span>}
+              </dd>
+            </>
+          )
+          const box = 'block rounded-xl border border-stone-200 bg-white p-5'
+          return 'to' in s && s.to ? (
+            <Link key={s.label} to={s.to} className={`${box} transition-shadow hover:shadow-md`}>
+              {body}
+            </Link>
+          ) : (
+            <div key={s.label} className={box}>
+              {body}
+            </div>
+          )
+        })}
       </dl>
 
       <section className="mt-10">

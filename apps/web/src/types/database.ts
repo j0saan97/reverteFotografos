@@ -705,6 +705,42 @@ export type Database = {
       has_gallery_access: { Args: { gid: string }; Returns: boolean }
       is_gallery_owner: { Args: { gid: string }; Returns: boolean }
       is_photographer: { Args: never; Returns: boolean }
+      list_my_bookings: {
+        Args: never
+        Returns: {
+          client_note: string
+          code: string
+          created_at: string
+          deposit_cents: number
+          ends_at: string
+          expires_at: string
+          full_day: boolean
+          id: string
+          photographer_note: string
+          product_name: string
+          starts_at: string
+          status: Database['public']['Enums']['booking_status']
+        }[]
+      }
+      list_photographer_bookings: {
+        Args: never
+        Returns: {
+          client_email: string
+          client_name: string
+          client_note: string
+          code: string
+          created_at: string
+          deposit_cents: number
+          ends_at: string
+          expires_at: string
+          full_day: boolean
+          id: string
+          photographer_note: string
+          product_name: string
+          starts_at: string
+          status: Database['public']['Enums']['booking_status']
+        }[]
+      }
       new_booking_code: { Args: never; Returns: string }
       request_booking: {
         Args: { p_note: string; p_product: string; p_starts_at: string }
