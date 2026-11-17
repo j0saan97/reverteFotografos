@@ -69,11 +69,11 @@ renumerar las existentes, para que las referencias (commits, conversaciones) sig
 - [x] **F1b.1** Home en `/`: carrusel, portfolio con filtros + lightbox, sobre mí, testimonios, contacto,
       footer y enlace "Acceso clientes"
 - [x] **F1b.2** Contacto directo: WhatsApp, teléfono, email, Instagram
-- [~] **F1b.3** Formulario → Edge Function `contact` + tabla `contact_requests` (RLS)
+- [x] **F1b.3** Formulario → Edge Function `contact` + tabla `contact_requests` (RLS)
 - [x] **F1b.4** Desplegar `contact` (pública: `verify_jwt = false` en `config.toml`, la publishable key no es un JWT)
 - [ ] **F1b.5** Cuenta de Resend + dominio verificado y secrets `RESEND_API_KEY`, `CONTACT_NOTIFY_EMAIL`,
       `CONTACT_FROM_EMAIL` *(usuario)* — también activa el email de las invitaciones
-- [ ] **F1b.6** Probar el formulario de contacto de punta a punta (llega a `contact_requests` y por email)
+- [~] **F1b.6** Probar el formulario de contacto de punta a punta (llega a `contact_requests` y por email) — llega a `contact_requests` ✔; falta el email (depende de F1b.5)
 - [ ] **F1b.7** Sustituir fotos de muestra, textos, opiniones y datos de contacto provisionales por los
       reales (`features/public-site/content.ts`)
 - [x] **F1b.8** SEO básico: title y description, Open Graph, favicon, `robots.txt` (zonas privadas fuera)
