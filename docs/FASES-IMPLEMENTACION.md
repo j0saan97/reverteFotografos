@@ -21,7 +21,7 @@ renumerar las existentes, para que las referencias (commits, conversaciones) sig
 | F1 | Auth, roles, layouts y guards | Hecha |
 | F1b | Web pública: carrusel, portfolio, contacto | Hecha, falta contenido real |
 | F2 | Galerías CRUD (fotógrafo) | Hecha (falta probar el PIN, F2.3) |
-| R1 | Reservas: calendario con producto, día y franja (solicitud + confirmación) | En curso (R1.1 hecha) |
+| R1 | Reservas: calendario con producto, día y franja (solicitud + confirmación) | Hecha (pendientes: R1.5, R1.6 emails, R1.7) |
 | R2 | Señal por transferencia/Bizum + bot de WhatsApp que lee el justificante | Diseño |
 | F3 | Subida a R2 + procesado (thumb, preview, marca de agua) | Pendiente |
 | F4 | Vista cliente protegida + acceso por invitación / PIN | Pendiente |
@@ -129,9 +129,9 @@ Tareas:
 - [x] **R1.1** Migración `bookings`: tablas + RLS + `available_slots(product, from, to)` y funciones
       `request_booking` / `respond_booking` / `confirm_booking` / `cancel_booking`. Probada con un
       test SQL que se deshace solo (huecos, día completo, doble reserva rechazada, aceptar, confirmar, cancelar)
-- [~] **R1.2** Panel: CRUD de productos, horario semanal y bloqueos
-- [~] **R1.3** Componente `BookingCalendar`: producto → día (mes con días disponibles) → franja → nota → enviar
-- [~] **R1.4** Mis reservas (cliente) y bandeja de reservas (fotógrafo): aceptar / rechazar / cancelar
+- [x] **R1.2** Panel: CRUD de productos, horario semanal y bloqueos
+- [x] **R1.3** Componente `BookingCalendar`: producto → día (mes con días disponibles) → franja → nota → enviar
+- [x] **R1.4** Mis reservas (cliente) y bandeja de reservas (fotógrafo): aceptar / rechazar / cancelar
 - [ ] **R1.5** Caducar solicitudes no atendidas (libera la franja) (ya caducan a las 48 h al consultar/reservar; falta el job periódico)
 - [ ] **R1.6** Emails: solicitud recibida, aceptada, rechazada
 - [ ] **R1.7** Zona horaria fija del negocio (`Europe/Madrid`) (ya aplicada en la BD; falta mostrarla en la UI)
