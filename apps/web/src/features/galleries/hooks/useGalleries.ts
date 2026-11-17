@@ -66,6 +66,17 @@ export function useSetGalleryPin(id: string) {
   })
 }
 
+export function useMoveToTrash(id: string) {
+  const sync = useSyncGallery()
+  return useMutation({ mutationFn: () => galleryService.moveToTrash(id), onSuccess: sync })
+}
+
+export function useRestoreGallery(id: string) {
+  const sync = useSyncGallery()
+  return useMutation({ mutationFn: () => galleryService.restore(id), onSuccess: sync })
+}
+
+// Permanent delete
 export function useDeleteGallery() {
   const qc = useQueryClient()
   return useMutation({
@@ -74,5 +85,20 @@ export function useDeleteGallery() {
       qc.removeQueries({ queryKey: galleryKeys.detail(id) })
       void qc.invalidateQueries({ queryKey: galleryKeys.all, exact: true })
     },
+  })
+}
+
+export function useEmptyTrash() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: galleryService.emptyTrash,
+    onSuccess: () => qc.invalidateQueries({ queryKey: galleryKeys.all }),
+  })
+}
+
+export function useSubmittedSelections() {
+  return useQuery({
+    queryKey: ['galleries', 'submitted-selections'],
+    queryFn: galleryService.submittedSelectionGalleryIds,
   })
 }

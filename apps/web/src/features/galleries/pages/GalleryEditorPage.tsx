@@ -6,7 +6,13 @@ import { toMessage } from '@/shared/lib/errors'
 import { GalleryClientsCard } from '../components/GalleryClientsCard'
 import { GalleryNotFound, PageSpinner } from '../components/GalleryPageStates'
 import { GalleryStatusBadge } from '../components/GalleryStatusBadge'
-import { useDeleteGallery, useGallery, useSetGalleryStatus } from '../hooks/useGalleries'
+import {
+  useDeleteGallery,
+  useGallery,
+  useMoveToTrash,
+  useRestoreGallery,
+  useSetGalleryStatus,
+} from '../hooks/useGalleries'
 import { formatDate, isExpired } from '../lib/galleryFormat'
 import type { Gallery } from '../services/galleryService'
 
@@ -33,15 +39,28 @@ export function GalleryEditorPage() {
   const navigate = useNavigate()
   const { data: gallery, isPending, error } = useGallery(id)
   const setStatus = useSetGalleryStatus(id)
+  const trash = useMoveToTrash(id)
+  const restore = useRestoreGallery(id)
   const remove = useDeleteGallery()
 
   if (isPending) return <PageSpinner />
   if (error) return <Alert tone="error">No se pudo cargar la galería: {toMessage(error)}</Alert>
   if (!gallery) return <GalleryNotFound />
 
-  const onDelete = async () => {
+  const inTrash = gallery.deleted_at !== null
+
+  const onTrash = async () => {
+    try {
+      await trash.mutateAsync()
+      navigate('/galleries', { replace: true })
+    } catch {
+      // Shown through trash.error
+    }
+  }
+
+  const onDeleteForever = async () => {
     const ok = window.confirm(
-      `¿Eliminar la galería "${gallery.title}"? Se borrarán también sus fotos, selecciones y mensajes. No se puede deshacer.`,
+      `¿Eliminar definitivamente "${gallery.title}"? Se borrarán también sus fotos, selecciones y mensajes. No se puede deshacer.`,
     )
     if (!ok) return
     try {
@@ -52,7 +71,7 @@ export function GalleryEditorPage() {
     }
   }
 
-  const mutationError = setStatus.error ?? remove.error
+  const mutationError = setStatus.error ?? trash.error ?? restore.error ?? remove.error
 
   return (
     <>
@@ -74,23 +93,39 @@ export function GalleryEditorPage() {
               <SettingsIcon className="size-4" />
               Ajustes
             </Link>
-            {STATUS_ACTIONS[gallery.status].map((a) => (
-              <Button
-                key={a.to}
-                variant={a.variant}
-                loading={setStatus.isPending && setStatus.variables === a.to}
-                disabled={setStatus.isPending}
-                onClick={() => setStatus.mutate(a.to)}
-              >
-                {a.label}
-              </Button>
-            ))}
+            {!inTrash &&
+              STATUS_ACTIONS[gallery.status].map((a) => (
+                <Button
+                  key={a.to}
+                  variant={a.variant}
+                  loading={setStatus.isPending && setStatus.variables === a.to}
+                  disabled={setStatus.isPending}
+                  onClick={() => setStatus.mutate(a.to)}
+                >
+                  {a.label}
+                </Button>
+              ))}
           </>
         }
       />
 
       <div className="space-y-6">
         {mutationError && <Alert tone="error">{toMessage(mutationError)}</Alert>}
+        {inTrash && (
+          <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-800 ring-1 ring-red-200 ring-inset">
+            <span>
+              Esta galería está en la papelera desde el {formatDate(gallery.deleted_at!)}. Tus
+              clientes no pueden verla.
+            </span>
+            <Button
+              variant="secondary"
+              loading={restore.isPending}
+              onClick={() => restore.mutate()}
+            >
+              Restaurar
+            </Button>
+          </div>
+        )}
         {gallery.status === 'published' && isExpired(gallery.expires_at) && (
           <Alert tone="error">
             Esta galería está caducada: los clientes ya no pueden verla. Cambia la fecha en Ajustes
@@ -118,16 +153,17 @@ export function GalleryEditorPage() {
         <section className="rounded-xl border border-red-200 bg-white p-6">
           <h2 className="font-medium text-stone-900">Eliminar galería</h2>
           <p className="mt-1 text-sm text-stone-500">
-            Borra la galería con todas sus fotos, selecciones y mensajes. Si solo quieres ocultarla,
-            archívala.
+            {inTrash
+              ? 'Borra la galería para siempre con todas sus fotos, selecciones y mensajes.'
+              : 'La galería pasa a la papelera: tus clientes dejan de verla y puedes restaurarla cuando quieras.'}
           </p>
           <Button
             variant="secondary"
             className="mt-4 text-red-700 ring-red-200 hover:bg-red-50"
-            loading={remove.isPending}
-            onClick={onDelete}
+            loading={inTrash ? remove.isPending : trash.isPending}
+            onClick={inTrash ? onDeleteForever : onTrash}
           >
-            Eliminar galería
+            {inTrash ? 'Eliminar definitivamente' : 'Mover a la papelera'}
           </Button>
         </section>
       </div>

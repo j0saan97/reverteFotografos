@@ -117,6 +117,7 @@ export type Database = {
           client_phone: string | null
           cover_photo_id: string | null
           created_at: string
+          deleted_at: string | null
           expires_at: string | null
           has_pin: boolean | null
           id: string
@@ -138,6 +139,7 @@ export type Database = {
           client_phone?: string | null
           cover_photo_id?: string | null
           created_at?: string
+          deleted_at?: string | null
           expires_at?: string | null
           has_pin?: boolean | null
           id?: string
@@ -159,6 +161,7 @@ export type Database = {
           client_phone?: string | null
           cover_photo_id?: string | null
           created_at?: string
+          deleted_at?: string | null
           expires_at?: string | null
           has_pin?: boolean | null
           id?: string

@@ -18,7 +18,7 @@ export function DashboardPage() {
     enabled: userId !== '',
   })
 
-  const list = galleries.data ?? []
+  const list = (galleries.data ?? []).filter((g) => g.deleted_at === null)
   const published = list.filter((g) => g.status === 'published').length
   const drafts = list.filter((g) => g.status === 'draft').length
   const error = galleries.error ?? counts.error

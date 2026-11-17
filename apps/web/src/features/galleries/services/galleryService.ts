@@ -4,7 +4,7 @@ import type { Database } from '@/types/database'
 
 // Explicit columns: pin_hash has no read GRANT (see RLS migrations).
 const GALLERY_COLUMNS =
-  'id, photographer_id, title, slug, cover_photo_id, allow_download, allow_selection, max_selection, watermark_text, expires_at, status, has_pin, client_name, client_email, client_phone, paid, sent_at, created_at'
+  'id, photographer_id, title, slug, cover_photo_id, allow_download, allow_selection, max_selection, watermark_text, expires_at, status, has_pin, client_name, client_email, client_phone, paid, sent_at, deleted_at, created_at'
 
 type GalleryRow = Database['public']['Tables']['galleries']['Row']
 export type Gallery = Omit<GalleryRow, 'pin_hash' | 'has_pin'> & { has_pin: boolean }
@@ -30,6 +30,7 @@ export type GalleryUpdate = Partial<
     | 'client_phone'
     | 'paid'
     | 'sent_at'
+    | 'deleted_at'
   >
 >
 
@@ -97,8 +98,30 @@ export const galleryService = {
     if (error) throw error
   },
 
+  // Trash (soft delete): clients lose access while deleted_at is set
+  moveToTrash: (id: string) => galleryService.update(id, { deleted_at: new Date().toISOString() }),
+
+  restore: (id: string) => galleryService.update(id, { deleted_at: null }),
+
+  // Permanent delete (cascades to photos, selections and messages)
   async remove(id: string): Promise<void> {
     const { error } = await supabase.from('galleries').delete().eq('id', id)
     if (error) throw error
+  },
+
+  // RLS limits this to the photographer's own galleries
+  async emptyTrash(): Promise<void> {
+    const { error } = await supabase.from('galleries').delete().not('deleted_at', 'is', null)
+    if (error) throw error
+  },
+
+  // Galleries whose client already submitted a selection (quick filters)
+  async submittedSelectionGalleryIds(): Promise<Set<string>> {
+    const { data, error } = await supabase
+      .from('selections')
+      .select('gallery_id')
+      .not('submitted_at', 'is', null)
+    if (error) throw error
+    return new Set(data.map((s) => s.gallery_id))
   },
 }

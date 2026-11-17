@@ -13,7 +13,7 @@ export function buildGallerySlug(title: string): string {
   const base =
     title
       .normalize('NFD')
-      .replace(/[̀-ͯ]/g, '')
+      .replace(/\p{Diacritic}/gu, '')
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/^-+|-+$/g, '')
