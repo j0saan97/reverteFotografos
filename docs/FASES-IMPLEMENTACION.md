@@ -98,9 +98,9 @@ Ampliación según la referencia ([inventario](referencias/iphoto-galeria/README
 - [x] **F2.9** Estado de pago de la galería: pagada / pendiente (lo marca el fotógrafo a mano)
 - [x] **F2.10** Enviar enlace al cliente principal: por email (`invite-client`) y por WhatsApp
       (`wa.me` con mensaje y enlace); registra la fecha de envío → indicador "enviada"
-- [~] **F2.11** Papelera: eliminar = mover a papelera (restaurable); vaciar = borrado definitivo.
+- [x] **F2.11** Papelera: eliminar = mover a papelera (restaurable); vaciar = borrado definitivo.
       Pestañas Activas / Archivadas / Papelera
-- [~] **F2.12** Filtros rápidos (Todas, Seleccionadas, Con extras, Pte. selección, Pagadas, Pte. pago,
+- [x] **F2.12** Filtros rápidos (Todas, Seleccionadas, Con extras, Pte. selección, Pagadas, Pte. pago,
       No enviadas, Descargadas), buscador por título o cliente y vista cuadrícula / lista
 
 ## R1 — Reservas (calendario)

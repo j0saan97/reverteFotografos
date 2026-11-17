@@ -40,17 +40,17 @@ Se rellena a partir de las capturas. Cada funcionalidad se asigna a una tarea de
 | 9 | Email | Enviar el enlace de la galería al cliente por email | F2.10 | ✅ |
 | 10 | WhatsApp + | Enviar el enlace de la galería por WhatsApp | F2.10 | ✅ |
 | 11 | Archivar | Archivar desde la tarjeta | F2.8 | ✅ |
-| 12 | Eliminar | Eliminar desde la tarjeta (a la papelera) | F2.8 · F2.11 | 🟡 (hecho, falta probar) |
+| 12 | Eliminar | Eliminar desde la tarjeta (a la papelera) | F2.8 · F2.11 | ✅ |
 
 #### Listado
 
 | Elemento | Qué hace | Tarea | Estado |
 |---|---|---|---|
-| Pestañas Activas / Archivadas / Papelera | Papelera = borrado reversible | F2.11 | 🟡 (hecho, falta probar) |
-| Filtros rápidos | Todas, Seleccionadas, Con extras, Pte. selección, Pagadas, Pte. pago, No enviadas, Descargadas | F2.12 | 🟡 (hecho, falta probar) |
-| Buscar | Por título o cliente | F2.12 | 🟡 (hecho, falta probar) |
+| Pestañas Activas / Archivadas / Papelera | Papelera = borrado reversible | F2.11 | ✅ |
+| Filtros rápidos | Todas, Seleccionadas, Con extras, Pte. selección, Pagadas, Pte. pago, No enviadas, Descargadas | F2.12 | ✅ |
+| Buscar | Por título o cliente | F2.12 | ✅ |
 | Panel "Filtros" | Filtros avanzados | F2.12 | ❓ (los filtros rápidos cubren lo visible) |
-| Cambiar vista | Cuadrícula / lista | F2.12 | 🟡 (hecho, falta probar) |
+| Cambiar vista | Cuadrícula / lista | F2.12 | ✅ |
 | + Nueva | Crear galería | F2.1 | ✅ |
 
 #### Menú lateral (módulos del producto de referencia)
