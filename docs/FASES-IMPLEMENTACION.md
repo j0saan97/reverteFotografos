@@ -128,12 +128,12 @@ Tareas:
 - [x] **R1.1** Migración `bookings`: tablas + RLS + `available_slots(product, from, to)` y funciones
       `request_booking` / `respond_booking` / `confirm_booking` / `cancel_booking`. Probada con un
       test SQL que se deshace solo (huecos, día completo, doble reserva rechazada, aceptar, confirmar, cancelar)
-- [ ] **R1.2** Panel: CRUD de productos, horario semanal y bloqueos
+- [~] **R1.2** Panel: CRUD de productos, horario semanal y bloqueos
 - [ ] **R1.3** Componente `BookingCalendar`: producto → día (mes con días disponibles) → franja → nota → enviar
 - [ ] **R1.4** Mis reservas (cliente) y bandeja de reservas (fotógrafo): aceptar / rechazar / cancelar
-- [~] **R1.5** Caducar solicitudes no atendidas (libera la franja) — caducan a las 48 h al consultar/reservar (`expire_pending_bookings`); falta un job periódico
+- [ ] **R1.5** Caducar solicitudes no atendidas (libera la franja) (ya caducan a las 48 h al consultar/reservar; falta el job periódico)
 - [ ] **R1.6** Emails: solicitud recibida, aceptada, rechazada
-- [~] **R1.7** Zona horaria fija del negocio (`Europe/Madrid`) — en la BD (`business_tz()`); falta mostrar las horas en Madrid en la UI
+- [ ] **R1.7** Zona horaria fija del negocio (`Europe/Madrid`) (ya aplicada en la BD; falta mostrarla en la UI)
 
 ## R2 — Señal y bot de WhatsApp
 

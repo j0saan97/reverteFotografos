@@ -137,3 +137,57 @@ export const contactSchema = z.object({
   // Honeypot: real users never fill it (hidden field)
   website: z.string().max(0).optional(),
 })
+
+// ---------- Bookings (R1) ----------
+
+const timeField = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, 'Hora no válida')
+const dateField = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Fecha no válida')
+const eurosField = z
+  .number({ invalid_type_error: 'Introduce un importe' })
+  .min(0, 'No puede ser negativo')
+  .max(100000, 'Importe demasiado alto')
+  .nullable()
+
+// Form shape (euros). The service stores cents.
+export const bookingProductSchema = z
+  .object({
+    name: z.string().trim().min(1, 'Ponle un nombre').max(80, 'Máximo 80 caracteres'),
+    description: z.string().trim().max(1000, 'Máximo 1000 caracteres').nullable(),
+    fullDay: z.boolean(),
+    durationMinutes: z
+      .number({ invalid_type_error: 'Introduce los minutos' })
+      .int('Minutos enteros')
+      .min(15, 'Mínimo 15 minutos')
+      .max(720, 'Máximo 12 horas')
+      .nullable(),
+    priceEuros: eurosField,
+    depositEuros: eurosField,
+    active: z.boolean(),
+  })
+  .refine((p) => p.fullDay || p.durationMinutes !== null, {
+    path: ['durationMinutes'],
+    message: 'Indica la duración o marca "día completo"',
+  })
+
+export const availabilityRuleSchema = z
+  .object({
+    weekday: z.number().int().min(1).max(7), // ISO: 1 = Monday
+    startTime: timeField,
+    endTime: timeField,
+  })
+  .refine((r) => r.startTime < r.endTime, {
+    path: ['endTime'],
+    message: 'Debe ser posterior al inicio',
+  })
+
+// Blocks are whole days (from/to inclusive)
+export const availabilityBlockSchema = z
+  .object({
+    startDate: dateField,
+    endDate: dateField,
+    reason: z.string().trim().max(200, 'Máximo 200 caracteres').nullable(),
+  })
+  .refine((b) => b.startDate <= b.endDate, {
+    path: ['endDate'],
+    message: 'Debe ser igual o posterior al inicio',
+  })

@@ -136,6 +136,13 @@ export const TrashIcon = (p: SVGProps<SVGSVGElement>) => (
   </Icon>
 )
 
+export const CalendarIcon = (p: SVGProps<SVGSVGElement>) => (
+  <Icon {...p}>
+    <rect x="3" y="5" width="18" height="16" rx="2" />
+    <path d="M3 10h18M8 3v4M16 3v4" />
+  </Icon>
+)
+
 export const GridIcon = (p: SVGProps<SVGSVGElement>) => (
   <Icon {...p}>
     <rect x="4" y="4" width="7" height="7" rx="1" />

@@ -11,6 +11,7 @@ import {
   NewGalleryPage,
 } from '@/features/galleries'
 import { ClientsListPage } from '@/features/clients'
+import { BookingSettingsPage } from '@/features/bookings'
 import { SelectionReviewPage, ClientSelectionPage } from '@/features/selections'
 import { ClientHomePage, GalleryAccessPage, GalleryViewPage } from '@/features/client-gallery'
 import { DashboardPage, BrandingSettingsPage } from '@/features/dashboard'
@@ -40,6 +41,7 @@ export const router = createBrowserRouter([
       { path: '/galleries/:id/settings', element: <GallerySettingsPage /> },
       { path: '/galleries/:id/selection', element: <SelectionReviewPage /> },
       { path: '/clients', element: <ClientsListPage /> },
+      { path: '/bookings/settings', element: <BookingSettingsPage /> },
       { path: '/settings/branding', element: <BrandingSettingsPage /> },
     ],
   },

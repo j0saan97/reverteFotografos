@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom'
 import {
   Brand,
   BrushIcon,
+  CalendarIcon,
   CloseIcon,
   GalleryIcon,
   HomeIcon,
@@ -14,6 +15,7 @@ import {
 const NAV = [
   { to: '/dashboard', label: 'Panel', icon: HomeIcon },
   { to: '/galleries', label: 'Galerías', icon: GalleryIcon },
+  { to: '/bookings/settings', label: 'Reservas', icon: CalendarIcon },
   { to: '/clients', label: 'Clientes', icon: UsersIcon },
   { to: '/settings/branding', label: 'Marca', icon: BrushIcon },
 ]
