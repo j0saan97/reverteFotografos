@@ -8,15 +8,13 @@ import { Alert, Button, LockIcon, PageHeader, TextField } from '@/shared/compone
 import { toMessage } from '@/shared/lib/errors'
 import { GalleryNotFound, PageSpinner } from '../components/GalleryPageStates'
 import { useGallery, useSetGalleryPin, useUpdateGallery } from '../hooks/useGalleries'
+import { ClientFields } from '../components/ClientFields'
+import { emptyToNull, toNumberOrNull } from '../lib/formValues'
 import { dateInputToExpiresAt, expiresAtToDateInput } from '../lib/galleryFormat'
 import type { Gallery } from '../services/galleryService'
 
 type SettingsValues = z.infer<typeof gallerySettingsSchema>
 type PinValues = z.infer<typeof galleryPinSchema>
-
-const emptyToNull = (v: unknown) => (typeof v === 'string' && v.trim() === '' ? null : v)
-const toNumberOrNull = (v: unknown) =>
-  v === '' || v === null || v === undefined ? null : Number(v)
 
 const card = 'rounded-xl border border-stone-200 bg-white p-6'
 
@@ -57,6 +55,11 @@ function SettingsForm({ gallery }: { gallery: Gallery }) {
     resolver: zodResolver(gallerySettingsSchema),
     defaultValues: {
       title: gallery.title,
+      // Galleries created before F2.7 have no client yet: the form asks for it
+      clientName: gallery.client_name ?? '',
+      clientEmail: gallery.client_email,
+      clientPhone: gallery.client_phone,
+      paid: gallery.paid,
       allowSelection: gallery.allow_selection,
       maxSelection: gallery.max_selection,
       allowDownload: gallery.allow_download,
@@ -71,6 +74,10 @@ function SettingsForm({ gallery }: { gallery: Gallery }) {
     try {
       await update.mutateAsync({
         title: v.title,
+        client_name: v.clientName,
+        client_email: v.clientEmail,
+        client_phone: v.clientPhone,
+        paid: v.paid,
         allow_selection: v.allowSelection,
         max_selection: v.allowSelection ? v.maxSelection : null,
         allow_download: v.allowDownload,
@@ -90,6 +97,13 @@ function SettingsForm({ gallery }: { gallery: Gallery }) {
       {saved && !isDirty && <Alert tone="success">Cambios guardados.</Alert>}
 
       <TextField label="Título" error={errors.title?.message} {...register('title')} />
+
+      <ClientFields register={register} errors={errors} />
+
+      <fieldset>
+        <legend className="mb-2 text-sm font-medium text-stone-900">Pago</legend>
+        <Checkbox label="El cliente ha pagado esta galería" {...register('paid')} />
+      </fieldset>
 
       <fieldset className="space-y-4">
         <legend className="mb-2 text-sm font-medium text-stone-900">Selección de fotos</legend>

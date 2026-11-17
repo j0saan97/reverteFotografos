@@ -112,14 +112,19 @@ export type Database = {
         Row: {
           allow_download: boolean
           allow_selection: boolean
+          client_email: string | null
+          client_name: string | null
+          client_phone: string | null
           cover_photo_id: string | null
           created_at: string
           expires_at: string | null
           has_pin: boolean | null
           id: string
           max_selection: number | null
+          paid: boolean
           photographer_id: string
           pin_hash: string | null
+          sent_at: string | null
           slug: string
           status: Database['public']['Enums']['gallery_status']
           title: string
@@ -128,14 +133,19 @@ export type Database = {
         Insert: {
           allow_download?: boolean
           allow_selection?: boolean
+          client_email?: string | null
+          client_name?: string | null
+          client_phone?: string | null
           cover_photo_id?: string | null
           created_at?: string
           expires_at?: string | null
           has_pin?: boolean | null
           id?: string
           max_selection?: number | null
+          paid?: boolean
           photographer_id: string
           pin_hash?: string | null
+          sent_at?: string | null
           slug: string
           status?: Database['public']['Enums']['gallery_status']
           title: string
@@ -144,14 +154,19 @@ export type Database = {
         Update: {
           allow_download?: boolean
           allow_selection?: boolean
+          client_email?: string | null
+          client_name?: string | null
+          client_phone?: string | null
           cover_photo_id?: string | null
           created_at?: string
           expires_at?: string | null
           has_pin?: boolean | null
           id?: string
           max_selection?: number | null
+          paid?: boolean
           photographer_id?: string
           pin_hash?: string | null
+          sent_at?: string | null
           slug?: string
           status?: Database['public']['Enums']['gallery_status']
           title?: string

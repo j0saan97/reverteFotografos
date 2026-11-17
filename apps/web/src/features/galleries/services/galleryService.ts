@@ -4,10 +4,16 @@ import type { Database } from '@/types/database'
 
 // Explicit columns: pin_hash has no read GRANT (see RLS migrations).
 const GALLERY_COLUMNS =
-  'id, photographer_id, title, slug, cover_photo_id, allow_download, allow_selection, max_selection, watermark_text, expires_at, status, has_pin, created_at'
+  'id, photographer_id, title, slug, cover_photo_id, allow_download, allow_selection, max_selection, watermark_text, expires_at, status, has_pin, client_name, client_email, client_phone, paid, sent_at, created_at'
 
 type GalleryRow = Database['public']['Tables']['galleries']['Row']
 export type Gallery = Omit<GalleryRow, 'pin_hash' | 'has_pin'> & { has_pin: boolean }
+
+export interface GalleryClient {
+  client_name: string
+  client_email: string | null
+  client_phone: string | null
+}
 
 export type GalleryUpdate = Partial<
   Pick<
@@ -19,6 +25,11 @@ export type GalleryUpdate = Partial<
     | 'watermark_text'
     | 'expires_at'
     | 'status'
+    | 'client_name'
+    | 'client_email'
+    | 'client_phone'
+    | 'paid'
+    | 'sent_at'
   >
 >
 
@@ -50,11 +61,16 @@ export const galleryService = {
   },
 
   // New galleries start as drafts. Retries on the (unlikely) slug collision.
-  async create(photographerId: string, title: string): Promise<Gallery> {
+  async create(photographerId: string, title: string, client: GalleryClient): Promise<Gallery> {
     for (let attempt = 1; ; attempt++) {
       const { data, error } = await supabase
         .from('galleries')
-        .insert({ photographer_id: photographerId, title, slug: buildGallerySlug(title) })
+        .insert({
+          photographer_id: photographerId,
+          title,
+          slug: buildGallerySlug(title),
+          ...client,
+        })
         .select(GALLERY_COLUMNS)
         .single()
       if (!error) return toGallery(data)

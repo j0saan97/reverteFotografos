@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import type { z } from 'zod'
 import { Alert, Button, PageHeader, TextField } from '@/shared/components'
 import { toMessage } from '@/shared/lib/errors'
+import { ClientFields } from '../components/ClientFields'
 import { useCreateGallery } from '../hooks/useGalleries'
 
 type Values = z.infer<typeof galleryCreateSchema>
@@ -18,8 +19,17 @@ export function NewGalleryPage() {
     formState: { errors },
   } = useForm<Values>({ resolver: zodResolver(galleryCreateSchema) })
 
-  const onSubmit = handleSubmit(async ({ title }) => {
-    const gallery = await create.mutateAsync(title).catch(() => null)
+  const onSubmit = handleSubmit(async ({ title, clientName, clientEmail, clientPhone }) => {
+    const gallery = await create
+      .mutateAsync({
+        title,
+        client: {
+          client_name: clientName,
+          client_email: clientEmail,
+          client_phone: clientPhone,
+        },
+      })
+      .catch(() => null)
     if (gallery) navigate(`/galleries/${gallery.id}/settings`, { replace: true })
   })
 
@@ -27,13 +37,13 @@ export function NewGalleryPage() {
     <>
       <PageHeader
         title="Nueva galería"
-        description="Se crea como borrador: tus clientes no la verán hasta que la publiques."
+        description="Se crea como borrador: tu cliente no la verá hasta que la publiques."
         back={{ to: '/galleries', label: 'Galerías' }}
       />
       <form
         onSubmit={onSubmit}
         noValidate
-        className="max-w-xl space-y-5 rounded-xl border border-stone-200 bg-white p-6"
+        className="max-w-xl space-y-6 rounded-xl border border-stone-200 bg-white p-6"
       >
         {create.error && (
           <Alert tone="error">No se pudo crear la galería: {toMessage(create.error)}</Alert>
@@ -45,6 +55,7 @@ export function NewGalleryPage() {
           error={errors.title?.message}
           {...register('title')}
         />
+        <ClientFields register={register} errors={errors} />
         <div className="flex justify-end gap-2">
           <Button variant="ghost" onClick={() => navigate('/galleries')}>
             Cancelar

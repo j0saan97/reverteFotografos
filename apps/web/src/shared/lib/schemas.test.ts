@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest'
 import {
   acceptInviteSchema,
   buildGallerySlug,
+  galleryCreateSchema,
+  toWhatsAppNumber,
   inviteClientSchema,
   galleryPinSchema,
   gallerySettingsSchema,
@@ -49,6 +51,10 @@ describe('shared schemas', () => {
     const base = {
       title: 'Boda Ana y Luis',
       allowDownload: false,
+      clientName: 'Ana García',
+      clientEmail: 'ana@example.com',
+      clientPhone: '600123456',
+      paid: false,
       allowSelection: true,
       maxSelection: 50,
       watermarkText: null,
@@ -84,6 +90,39 @@ describe('invite schemas', () => {
     expect(acceptInviteSchema.safeParse({ token: 'a'.repeat(43) }).success).toBe(true)
     expect(acceptInviteSchema.safeParse({ token: 'short' }).success).toBe(false)
     expect(acceptInviteSchema.safeParse({ token: `${'a'.repeat(40)}/..` }).success).toBe(false)
+  })
+})
+
+describe('gallery client fields', () => {
+  const base = { title: 'Boda', clientName: 'Ana', clientEmail: null, clientPhone: null }
+
+  it('requires the client name and accepts empty contact data', () => {
+    expect(galleryCreateSchema.safeParse(base).success).toBe(true)
+    expect(galleryCreateSchema.safeParse({ ...base, clientName: ' ' }).success).toBe(false)
+  })
+
+  it('validates email and phone when present', () => {
+    expect(galleryCreateSchema.safeParse({ ...base, clientPhone: '+34 600 123 456' }).success).toBe(
+      true,
+    )
+    expect(galleryCreateSchema.safeParse({ ...base, clientPhone: '600-12' }).success).toBe(false)
+    expect(galleryCreateSchema.safeParse({ ...base, clientEmail: 'nope' }).success).toBe(false)
+  })
+})
+
+describe('toWhatsAppNumber', () => {
+  it('adds the Spanish prefix to 9-digit numbers', () => {
+    expect(toWhatsAppNumber('600 123 456')).toBe('34600123456')
+  })
+
+  it('keeps explicit international prefixes', () => {
+    expect(toWhatsAppNumber('+34 600 123 456')).toBe('34600123456')
+    expect(toWhatsAppNumber('0034600123456')).toBe('34600123456')
+    expect(toWhatsAppNumber('+44 7700 900123')).toBe('447700900123')
+  })
+
+  it('rejects numbers that are too short', () => {
+    expect(toWhatsAppNumber('12345')).toBeNull()
   })
 })
 

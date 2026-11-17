@@ -41,12 +41,30 @@ const galleryTitleField = z
   .min(1, 'Ponle un título a la galería')
   .max(120, 'Máximo 120 caracteres')
 
-export const galleryCreateSchema = z.object({ title: galleryTitleField })
+// Each gallery belongs to one client. Email and phone are optional but needed
+// to send the link by email / WhatsApp. Empty inputs arrive as null.
+const galleryClientFields = {
+  clientName: z
+    .string()
+    .trim()
+    .min(1, 'Indica el nombre del cliente')
+    .max(120, 'Máximo 120 caracteres'),
+  clientEmail: z.string().trim().toLowerCase().email('Introduce un email válido').nullable(),
+  clientPhone: z
+    .string()
+    .trim()
+    .regex(/^\+?[0-9 ]{6,20}$/, 'Teléfono no válido (solo números, opcionalmente con +34)')
+    .nullable(),
+}
+
+export const galleryCreateSchema = z.object({ title: galleryTitleField, ...galleryClientFields })
 
 // Form shape. maxSelection/watermarkText/expiresAt are null when left empty.
 // expiresAt is a calendar date (YYYY-MM-DD): the gallery expires at the end of that day.
 export const gallerySettingsSchema = z.object({
   title: galleryTitleField,
+  ...galleryClientFields,
+  paid: z.boolean(),
   allowDownload: z.boolean(),
   allowSelection: z.boolean(),
   maxSelection: z

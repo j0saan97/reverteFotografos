@@ -89,6 +89,20 @@ renumerar las existentes, para que las referencias (commits, conversaciones) sig
 - [~] **F2.5** Dashboard con resumen (publicadas, borradores, selecciones recibidas, mensajes sin leer)
 - [x] **F2.6** Migración `gallery_settings`: `has_pin`, GRANT por columna (no se escribe `pin_hash` ni `photographer_id`)
 
+Ampliación según la referencia ([inventario](referencias/iphoto-galeria/README.md), captura 01):
+- [~] **F2.7** Cliente principal de la galería (nombre, email, teléfono); se muestra como subtítulo
+      en la tarjeta y es el destinatario por defecto de email/WhatsApp
+- [~] **F2.8** Tarjeta con 10 iconos: enviada · ♥ N seleccionadas · € pagada · extras · @ permiso
+      de publicación · descargar (sin funcionalidad) · email · WhatsApp · archivar · eliminar.
+      Los indicadores sin datos todavía (selección, extras, @) se muestran apagados
+- [~] **F2.9** Estado de pago de la galería: pagada / pendiente (lo marca el fotógrafo a mano)
+- [~] **F2.10** Enviar enlace al cliente principal: por email (`invite-client`) y por WhatsApp
+      (`wa.me` con mensaje y enlace); registra la fecha de envío → indicador "enviada"
+- [ ] **F2.11** Papelera: eliminar = mover a papelera (restaurable); vaciar = borrado definitivo.
+      Pestañas Activas / Archivadas / Papelera
+- [ ] **F2.12** Filtros rápidos (Todas, Seleccionadas, Con extras, Pte. selección, Pagadas, Pte. pago,
+      No enviadas, Descargadas), buscador por título o cliente y vista cuadrícula / lista
+
 ## R1 — Reservas (calendario)
 
 Decisiones (2026-11-17):
@@ -182,6 +196,8 @@ Tareas:
 - [ ] **F5.4** Revisar y enviar con mensaje general (`submit-selection`)
 - [ ] **F5.5** Hilo de mensajes (`gallery_messages`) con Realtime y no leídos
 - [ ] **F5.6** Vista del fotógrafo: selecciones, comentarios, exportar nombres, reabrir (`reopen-selection`)
+- [ ] **F5.7** Productos extra que el cliente puede pedir desde la galería (álbum, copias…) → indicador "extras"
+- [ ] **F5.8** Consentimiento del cliente para publicar sus fotos → indicador "@"
 
 ## F6 — Descargas
 

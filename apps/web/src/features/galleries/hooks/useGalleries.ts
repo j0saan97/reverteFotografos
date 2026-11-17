@@ -1,7 +1,12 @@
 import type { GalleryStatus } from '@galeria/shared'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useSession } from '@/features/auth'
-import { galleryService, type Gallery, type GalleryUpdate } from '../services/galleryService'
+import {
+  galleryService,
+  type Gallery,
+  type GalleryClient,
+  type GalleryUpdate,
+} from '../services/galleryService'
 
 export const galleryKeys = {
   all: ['galleries'] as const,
@@ -29,9 +34,9 @@ export function useCreateGallery() {
   const { session } = useSession()
   const sync = useSyncGallery()
   return useMutation({
-    mutationFn: (title: string) => {
+    mutationFn: ({ title, client }: { title: string; client: GalleryClient }) => {
       if (!session) throw new Error('No hay sesión')
-      return galleryService.create(session.user.id, title)
+      return galleryService.create(session.user.id, title, client)
     },
     onSuccess: sync,
   })

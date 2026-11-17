@@ -137,6 +137,11 @@ export function GalleryEditorPage() {
 
 function SettingsSummary({ gallery }: { gallery: Gallery }) {
   const rows: [string, ReactNode][] = [
+    ['Cliente', gallery.client_name ?? 'Sin asignar'],
+    ['Email del cliente', gallery.client_email ?? '—'],
+    ['Teléfono del cliente', gallery.client_phone ?? '—'],
+    ['Pago', gallery.paid ? 'Pagada' : 'Pendiente'],
+    ['Enlace enviado', gallery.sent_at ? formatDate(gallery.sent_at) : 'No'],
     ['Selección de fotos', gallery.allow_selection ? 'Permitida' : 'Desactivada'],
     [
       'Máximo de fotos a elegir',
