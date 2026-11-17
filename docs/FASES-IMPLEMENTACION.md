@@ -175,7 +175,20 @@ Tareas:
 
 ## F3 — Subida y procesado
 
-- [ ] **F3.1** Cuenta de Cloudflare + buckets R2 (`originals`, `previews`) + claves
+- [ ] **F3.1** Cuenta de Cloudflare + buckets R2 (`originals`, `previews`) + claves *(usuario)*
+      1. Crear cuenta en dash.cloudflare.com/sign-up y verificar el email.
+      2. Menú **R2 Object Storage** → activar el plan (pide tarjeta; gratis hasta 10 GB, sin coste
+         de salida de datos).
+      3. *Create bucket* ×2, ambos **privados**, ubicación *Automatic* o Europa (EEUR):
+         `reverte-originals` (originales) y `reverte-previews` (miniaturas y vistas previas con
+         marca de agua, servidas con enlaces que caducan).
+      4. *R2 → Manage R2 API Tokens → Create API token*: permiso **Object Read & Write**, solo esos
+         dos buckets. Guardar **Access Key ID**, **Secret Access Key** y **endpoint**
+         (`https://<account-id>.r2.cloudflarestorage.com`); el secret no se vuelve a mostrar.
+      5. Guardar las claves como secrets de Supabase desde la terminal (nunca en el chat ni en el
+         repo): `npx supabase secrets set --remote R2_ACCOUNT_ID=… R2_ACCESS_KEY_ID=…
+         R2_SECRET_ACCESS_KEY=… R2_BUCKET_ORIGINALS=reverte-originals
+         R2_BUCKET_PREVIEWS=reverte-previews` (el endpoint se construye con el Account ID)
 - [ ] **F3.2** `sign-upload` (URL prefirmada R2)
 - [ ] **F3.3** Dropzone + cola con concurrencia y reintentos
 - [ ] **F3.4** `process-photo` → thumb + preview con marca de agua (decidir: Cloudflare Images o `image-worker` con sharp)
@@ -230,7 +243,19 @@ Pendiente de decidir: ¿la app es solo para Reverte o un producto para otros fot
 
 ## Transversal / despliegue
 
-- [ ] **T.1** Dominio propio y hosting del front (Vercel / Netlify / Cloudflare Pages)
+- [ ] **T.1** Hosting del front en **Cloudflare Pages** (decisión 2026-11-17: misma cuenta que R2) + dominio propio
+      1. Cloudflare → *Workers & Pages → Create → pestaña **Pages** → Connect to Git* → repo
+         `reverteFotografos`. Rama de producción: `main` (`dev` queda como preview).
+      2. Build: *Framework preset* None · *Build command* `pnpm --filter web build` ·
+         *Build output directory* `apps/web/dist` · *Root directory* vacío (raíz del monorepo).
+      3. Variables de entorno (Production y Preview): `NODE_VERSION=22`, `PNPM_VERSION=9.12.0`,
+         `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` (publishable key; nunca la secret).
+      4. Tras el primer deploy (`https://<proyecto>.pages.dev`): en Supabase Auth añadir
+         `https://<proyecto>.pages.dev/**` a *Redirect URLs* y ponerla como *Site URL*;
+         `npx supabase secrets set --remote APP_URL=https://<proyecto>.pages.dev`.
+      5. Dominio propio: *Custom domains* en Pages y repetir el paso 4 con el dominio.
+      - Ya en el repo: `apps/web/public/_headers` (cabeceras de seguridad y caché); las rutas de
+        la SPA funcionan sin configuración (Pages sirve `index.html` si no hay `404.html`).
 - [ ] **T.2** CORS de las Edge Functions restringido al dominio (`APP_URL`)
 - [ ] **T.3** CI en GitHub Actions: revisar que pasa con el código actual
 - [ ] **T.4** Sentry (front + functions)
