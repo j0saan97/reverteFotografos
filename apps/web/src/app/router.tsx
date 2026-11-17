@@ -11,6 +11,7 @@ import {
   NewGalleryPage,
 } from '@/features/galleries'
 import { ClientsListPage } from '@/features/clients'
+import { ContactRequestsPage } from '@/features/contacts'
 import {
   BookingPage,
   BookingSettingsPage,
@@ -46,6 +47,7 @@ export const router = createBrowserRouter([
       { path: '/galleries/:id/settings', element: <GallerySettingsPage /> },
       { path: '/galleries/:id/selection', element: <SelectionReviewPage /> },
       { path: '/clients', element: <ClientsListPage /> },
+      { path: '/contacts', element: <ContactRequestsPage /> },
       { path: '/bookings', element: <BookingsInboxPage /> },
       { path: '/bookings/settings', element: <BookingSettingsPage /> },
       { path: '/settings/branding', element: <BrandingSettingsPage /> },

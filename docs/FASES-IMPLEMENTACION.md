@@ -79,7 +79,7 @@ renumerar las existentes, para que las referencias (commits, conversaciones) sig
       reales (`features/public-site/content.ts`)
 - [x] **F1b.8** SEO básico: title y description, Open Graph, favicon, `robots.txt` (zonas privadas fuera)
 - [ ] **F1b.9** SEO con dominio real: `og:url`, canonical, `og:image` propia, sitemap
-- [ ] **F1b.10** *(Más adelante)* gestionar el portfolio y ver las solicitudes de contacto desde el panel
+- [~] **F1b.10** Solicitudes de contacto en el panel (`/contacts`): sin atender / atendidos, email, teléfono y WhatsApp; contador en el dashboard. *(Gestionar el portfolio desde el panel: más adelante)*
 
 ## F2 — Galerías (fotógrafo)
 
@@ -186,7 +186,7 @@ Tareas:
 ## F4 — Vista cliente protegida
 
 - [x] **F4.1** `invite-client` (email de invitación) + `AcceptInvitePage` — adelantado en F1 (ver F1.11 y F1.12)
-- [ ] **F4.2** `ClientHomePage` (`/my`): listar las galerías a las que el cliente tiene acceso
+- [~] **F4.2** `ClientHomePage` (`/my`): galerías del cliente (publicadas, no caducadas), aviso de las aún no publicadas y próximas reservas. `/my/:slug` muestra el título hasta que haya fotos (F3/F4)
 - [ ] **F4.3** Acceso por `/g/:slug` + PIN (`verify-pin` con hash + límite de intentos)
 - [ ] **F4.4** `sign-view` + Worker de Cloudflare que valida el token
 - [ ] **F4.5** `ProtectedImage`, `ProtectedLightbox` y hooks de `shared/protection`

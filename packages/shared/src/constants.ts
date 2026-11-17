@@ -22,3 +22,11 @@ export const WEEKDAYS = [
   { value: 6, label: 'Sábado' },
   { value: 7, label: 'Domingo' },
 ] as const
+
+export const CONTACT_SESSION_LABELS: Record<(typeof CONTACT_SESSION_TYPES)[number], string> = {
+  wedding: 'Boda',
+  portrait: 'Retrato',
+  event: 'Evento',
+  family: 'Familia',
+  other: 'Otro',
+}

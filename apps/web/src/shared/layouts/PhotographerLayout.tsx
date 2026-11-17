@@ -8,6 +8,7 @@ import {
   GalleryIcon,
   HomeIcon,
   LogoutIcon,
+  MailIcon,
   MenuIcon,
   UsersIcon,
 } from '@/shared/components'
@@ -16,6 +17,7 @@ const NAV = [
   { to: '/dashboard', label: 'Panel', icon: HomeIcon },
   { to: '/galleries', label: 'Galerías', icon: GalleryIcon },
   { to: '/bookings', label: 'Reservas', icon: CalendarIcon },
+  { to: '/contacts', label: 'Contactos', icon: MailIcon },
   { to: '/clients', label: 'Clientes', icon: UsersIcon },
   { to: '/settings/branding', label: 'Marca', icon: BrushIcon },
 ]

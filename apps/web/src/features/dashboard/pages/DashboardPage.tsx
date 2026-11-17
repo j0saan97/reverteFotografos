@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { GalleryCard, useGalleries } from '@/features/galleries'
 import { useSession } from '@/features/auth'
 import { usePhotographerBookings } from '@/features/bookings'
+import { useContactRequests } from '@/features/contacts'
 import { Alert, PageHeader, PlusIcon } from '@/shared/components'
 import { toMessage } from '@/shared/lib/errors'
 import { dashboardService } from '../services/dashboardService'
@@ -14,6 +15,7 @@ export function DashboardPage() {
   const userId = session?.user.id ?? ''
   const galleries = useGalleries()
   const bookings = usePhotographerBookings()
+  const contacts = useContactRequests()
   const counts = useQuery({
     queryKey: ['dashboard', 'counts', userId],
     queryFn: () => dashboardService.counts(userId),
@@ -25,10 +27,12 @@ export function DashboardPage() {
   const drafts = list.filter((g) => g.status === 'draft').length
   const error = galleries.error ?? counts.error
 
+  const openContacts = contacts.data?.filter((c) => !c.handled).length ?? null
   const pendingBookings = bookings.data?.filter((b) => b.status === 'pending').length ?? null
 
   const stats = [
     { label: 'Reservas por aceptar', value: pendingBookings, to: '/bookings' },
+    { label: 'Contactos sin atender', value: openContacts, to: '/contacts' },
     { label: 'Galerías publicadas', value: galleries.data ? published : null },
     { label: 'Borradores', value: galleries.data ? drafts : null },
     { label: 'Selecciones recibidas', value: counts.data?.submittedSelections ?? null },
@@ -53,7 +57,7 @@ export function DashboardPage() {
 
       {error && <Alert tone="error">No se pudo cargar el resumen: {toMessage(error)}</Alert>}
 
-      <dl className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-5">
+      <dl className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-6">
         {stats.map((s) => {
           const body = (
             <>
