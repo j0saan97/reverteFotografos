@@ -90,13 +90,13 @@ renumerar las existentes, para que las referencias (commits, conversaciones) sig
 - [x] **F2.6** Migración `gallery_settings`: `has_pin`, GRANT por columna (no se escribe `pin_hash` ni `photographer_id`)
 
 Ampliación según la referencia ([inventario](referencias/iphoto-galeria/README.md), captura 01):
-- [~] **F2.7** Cliente principal de la galería (nombre, email, teléfono); se muestra como subtítulo
+- [x] **F2.7** Cliente principal de la galería (nombre, email, teléfono); se muestra como subtítulo
       en la tarjeta y es el destinatario por defecto de email/WhatsApp
-- [~] **F2.8** Tarjeta con 10 iconos: enviada · ♥ N seleccionadas · € pagada · extras · @ permiso
+- [x] **F2.8** Tarjeta con 10 iconos: enviada · ♥ N seleccionadas · € pagada · extras · @ permiso
       de publicación · descargar (sin funcionalidad) · email · WhatsApp · archivar · eliminar.
       Los indicadores sin datos todavía (selección, extras, @) se muestran apagados
-- [~] **F2.9** Estado de pago de la galería: pagada / pendiente (lo marca el fotógrafo a mano)
-- [~] **F2.10** Enviar enlace al cliente principal: por email (`invite-client`) y por WhatsApp
+- [x] **F2.9** Estado de pago de la galería: pagada / pendiente (lo marca el fotógrafo a mano)
+- [x] **F2.10** Enviar enlace al cliente principal: por email (`invite-client`) y por WhatsApp
       (`wa.me` con mensaje y enlace); registra la fecha de envío → indicador "enviada"
 - [ ] **F2.11** Papelera: eliminar = mover a papelera (restaurable); vaciar = borrado definitivo.
       Pestañas Activas / Archivadas / Papelera

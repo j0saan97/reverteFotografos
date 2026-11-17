@@ -30,16 +30,16 @@ Se rellena a partir de las capturas. Cada funcionalidad se asigna a una tarea de
 | # | Elemento | Qué hace | Tarea | Estado |
 |---|---|---|---|---|
 | 1 | Portada | Foto de portada de la galería | F3.6 | ⬜ |
-| 2 | Título + nombre del cliente | Subtítulo con el cliente principal de la galería | F2.7 | 🟡 |
-| 3 | Enviada | Indica si el enlace ya se envió al cliente | F2.8 | 🟡 |
+| 2 | Título + nombre del cliente | Subtítulo con el cliente principal de la galería | F2.7 | ✅ |
+| 3 | Enviada | Indica si el enlace ya se envió al cliente | F2.8 | ✅ |
 | 4 | ♥ N | Selección del cliente; N = fotos seleccionadas en ese momento | F2.8 (indicador) · F5 (datos) | 🟡 (indicador; datos en su fase) |
-| 5 | € | Galería pagada | F2.9 | 🟡 |
+| 5 | € | Galería pagada | F2.9 | ✅ |
 | 6 | Etiqueta | El cliente ha pedido productos extra | F2.8 (indicador) · F5.7 (extras) | 🟡 (indicador; datos en su fase) |
 | 7 | @ | El cliente permite publicar las fotos | F2.8 (indicador) · F5.8 (consentimiento) | 🟡 (indicador; datos en su fase) |
 | 8 | Descargar | Botón visible, **sin funcionalidad** por ahora | F2.8 · F6 | 🟡 (botón visible y desactivado; descarga en F6) |
-| 9 | Email | Enviar el enlace de la galería al cliente por email | F2.10 | 🟡 |
-| 10 | WhatsApp + | Enviar el enlace de la galería por WhatsApp | F2.10 | 🟡 |
-| 11 | Archivar | Archivar desde la tarjeta | F2.8 | 🟡 |
+| 9 | Email | Enviar el enlace de la galería al cliente por email | F2.10 | ✅ |
+| 10 | WhatsApp + | Enviar el enlace de la galería por WhatsApp | F2.10 | ✅ |
+| 11 | Archivar | Archivar desde la tarjeta | F2.8 | ✅ |
 | 12 | Eliminar | Eliminar desde la tarjeta (a la papelera) | F2.8 · F2.11 | 🟡 |
 
 #### Listado
