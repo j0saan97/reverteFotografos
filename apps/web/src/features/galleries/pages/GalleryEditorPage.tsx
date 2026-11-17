@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Alert, Button, GalleryIcon, PageHeader, SettingsIcon } from '@/shared/components'
 import { toMessage } from '@/shared/lib/errors'
+import { GalleryClientsCard } from '../components/GalleryClientsCard'
 import { GalleryNotFound, PageSpinner } from '../components/GalleryPageStates'
 import { GalleryStatusBadge } from '../components/GalleryStatusBadge'
 import { useDeleteGallery, useGallery, useSetGalleryStatus } from '../hooks/useGalleries'
@@ -101,6 +102,8 @@ export function GalleryEditorPage() {
           <h2 className="mb-4 font-medium text-stone-900">Resumen</h2>
           <SettingsSummary gallery={gallery} />
         </section>
+
+        <GalleryClientsCard gallery={gallery} />
 
         <section className="rounded-xl border border-stone-200 bg-white p-6">
           <h2 className="mb-4 font-medium text-stone-900">Fotos</h2>

@@ -10,3 +10,4 @@ export const PREVIEW_MAX_PX = 1600
 export const THUMB_MAX_PX = 400
 export const VIEW_TOKEN_TTL_SECONDS = 15 * 60
 export const DOWNLOAD_URL_TTL_SECONDS = 60
+export const INVITE_TTL_DAYS = 14

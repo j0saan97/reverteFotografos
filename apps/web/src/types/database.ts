@@ -181,6 +181,8 @@ export type Database = {
           email: string
           gallery_id: string
           invited_at: string
+          token_expires_at: string | null
+          token_hash: string | null
         }
         Insert: {
           accepted_at?: string | null
@@ -188,6 +190,8 @@ export type Database = {
           email: string
           gallery_id: string
           invited_at?: string
+          token_expires_at?: string | null
+          token_hash?: string | null
         }
         Update: {
           accepted_at?: string | null
@@ -195,6 +199,8 @@ export type Database = {
           email?: string
           gallery_id?: string
           invited_at?: string
+          token_expires_at?: string | null
+          token_hash?: string | null
         }
         Relationships: [
           {

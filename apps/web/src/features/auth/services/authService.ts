@@ -50,6 +50,9 @@ export const authService = {
 
   claimPhotographer: (code: string) => callFunction<{ role: Role }>('claim-photographer', { code }),
 
+  acceptInvite: (token: string) =>
+    callFunction<{ slug: string; title: string; published: boolean }>('accept-invite', { token }),
+
   clearPendingPhotographerCode: () =>
     supabase.auth.updateUser({ data: { photographer_code: null } }),
 }

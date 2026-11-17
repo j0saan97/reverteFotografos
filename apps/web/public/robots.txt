@@ -1,0 +1,13 @@
+# Only the public website is indexable. Private areas (panel, client galleries,
+# invitations, auth) stay out of search engines.
+User-agent: *
+Disallow: /dashboard
+Disallow: /galleries
+Disallow: /clients
+Disallow: /settings
+Disallow: /my
+Disallow: /g/
+Disallow: /invite/
+Disallow: /login
+Disallow: /register
+Disallow: /reset-password

@@ -75,7 +75,11 @@ export const signUploadSchema = z.object({
 
 export const inviteClientSchema = z.object({
   galleryId: z.string().uuid(),
-  email: z.string().email(),
+  email: z.string().trim().toLowerCase().email('Introduce un email válido'),
+})
+
+export const acceptInviteSchema = z.object({
+  token: z.string().regex(/^[A-Za-z0-9_-]{32,128}$/),
 })
 
 export const verifyPinSchema = z.object({

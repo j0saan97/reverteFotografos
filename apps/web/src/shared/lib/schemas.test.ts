@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import {
+  acceptInviteSchema,
   buildGallerySlug,
+  inviteClientSchema,
   galleryPinSchema,
   gallerySettingsSchema,
   newPasswordSchema,
@@ -67,6 +69,21 @@ describe('shared schemas', () => {
     expect(galleryPinSchema.safeParse({ pin: '12345678' }).success).toBe(true)
     expect(galleryPinSchema.safeParse({ pin: '123' }).success).toBe(false)
     expect(galleryPinSchema.safeParse({ pin: '123456789' }).success).toBe(false)
+  })
+})
+
+describe('invite schemas', () => {
+  const galleryId = '7b0e6a52-3f0e-4c8e-9d7a-2a1b3c4d5e6f'
+
+  it('normalizes the invited email', () => {
+    const r = inviteClientSchema.safeParse({ galleryId, email: '  Ana@Example.COM ' })
+    expect(r.success && r.data.email).toBe('ana@example.com')
+  })
+
+  it('rejects malformed invite tokens', () => {
+    expect(acceptInviteSchema.safeParse({ token: 'a'.repeat(43) }).success).toBe(true)
+    expect(acceptInviteSchema.safeParse({ token: 'short' }).success).toBe(false)
+    expect(acceptInviteSchema.safeParse({ token: `${'a'.repeat(40)}/..` }).success).toBe(false)
   })
 })
 
