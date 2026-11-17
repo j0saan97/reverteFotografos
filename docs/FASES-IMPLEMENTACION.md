@@ -19,12 +19,15 @@ renumerar las existentes, para que las referencias (commits, conversaciones) sig
 |---|---|---|
 | F0 | Setup: monorepo, Supabase, migraciones, tipos | Hecha |
 | F1 | Auth, roles, layouts y guards | Hecha |
-| F1b | Web pública: carrusel, portfolio, contacto | Hecha, falta contenido real |
+| F1b | Web pública: carrusel, portfolio, contacto | Hecha; contactos en el panel. Falta Resend (F1b.5), contenido real y SEO con dominio |
 | F2 | Galerías CRUD (fotógrafo) | Hecha (falta probar el PIN, F2.3) |
 | R1 | Reservas: calendario con producto, día y franja (solicitud + confirmación) | Hecha (pendientes: R1.5 job, R1.6 emails) |
-| R2 | Señal por transferencia/Bizum + bot de WhatsApp que lee el justificante | Diseño |
-| F3 | Subida a R2 + procesado (thumb, preview, marca de agua) | Pendiente |
-| F4 | Vista cliente protegida + acceso por invitación / PIN | Pendiente |
+| R2 | Señal por transferencia/Bizum + bot de WhatsApp que lee el justificante | Diseño (necesita cuenta de Meta Business) |
+| F3 | Subida a R2 + procesado (thumb, preview, marca de agua) | **Siguiente**: el usuario está creando Cloudflare + R2 (F3.1) |
+| F4 | Vista cliente protegida + acceso por invitación / PIN | En curso: invitaciones (F4.1) e inicio del cliente (F4.2) hechos |
+
+**Próxima sesión (2026-11-18):** terminar F3.1 (buckets + secrets) y T.1 (Cloudflare Pages:
+pasar la URL `*.pages.dev` para configurarla en Supabase); después empezar F3.2 `sign-upload`.
 | F5 | Selección, comentarios por foto, envío y mensajes | Pendiente |
 | F6 | Descargas firmadas + ZIP + auditoría | Pendiente |
 | F7 | Branding del fotógrafo, emails y caducidades | Pendiente |
