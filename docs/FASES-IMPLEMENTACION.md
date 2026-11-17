@@ -21,7 +21,7 @@ renumerar las existentes, para que las referencias (commits, conversaciones) sig
 | F1 | Auth, roles, layouts y guards | Hecha |
 | F1b | Web pública: carrusel, portfolio, contacto | Hecha, falta contenido real |
 | F2 | Galerías CRUD (fotógrafo) | Hecha (falta probar el PIN, F2.3) |
-| R1 | Reservas: calendario con producto, día y franja (solicitud + confirmación) | Hecha (pendientes: R1.5, R1.6 emails, R1.7) |
+| R1 | Reservas: calendario con producto, día y franja (solicitud + confirmación) | Hecha (pendientes: R1.5 job, R1.6 emails) |
 | R2 | Señal por transferencia/Bizum + bot de WhatsApp que lee el justificante | Diseño |
 | F3 | Subida a R2 + procesado (thumb, preview, marca de agua) | Pendiente |
 | F4 | Vista cliente protegida + acceso por invitación / PIN | Pendiente |
@@ -134,7 +134,7 @@ Tareas:
 - [x] **R1.4** Mis reservas (cliente) y bandeja de reservas (fotógrafo): aceptar / rechazar / cancelar
 - [ ] **R1.5** Caducar solicitudes no atendidas (libera la franja) (ya caducan a las 48 h al consultar/reservar; falta el job periódico)
 - [ ] **R1.6** Emails: solicitud recibida, aceptada, rechazada
-- [ ] **R1.7** Zona horaria fija del negocio (`Europe/Madrid`) (ya aplicada en la BD; falta mostrarla en la UI)
+- [x] **R1.7** Zona horaria fija del negocio (`Europe/Madrid`): en la BD (`business_tz()`) y en la UI (calendario, bandeja y Mis reservas con `madridTime`)
 
 ## R2 — Señal y bot de WhatsApp
 
